@@ -135,6 +135,246 @@ main_noncurses.cpp.s:
 	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/main_noncurses.cpp.s
 .PHONY : main_noncurses.cpp.s
 
+model/model.o: model/model.cpp.o
+.PHONY : model/model.o
+
+# target to build an object file
+model/model.cpp.o:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/model/model.cpp.o
+.PHONY : model/model.cpp.o
+
+model/model.i: model/model.cpp.i
+.PHONY : model/model.i
+
+# target to preprocess a source file
+model/model.cpp.i:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/model/model.cpp.i
+.PHONY : model/model.cpp.i
+
+model/model.s: model/model.cpp.s
+.PHONY : model/model.s
+
+# target to generate assembly for a file
+model/model.cpp.s:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/model/model.cpp.s
+.PHONY : model/model.cpp.s
+
+nc_controller/command.o: nc_controller/command.cpp.o
+.PHONY : nc_controller/command.o
+
+# target to build an object file
+nc_controller/command.cpp.o:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/nc_controller/command.cpp.o
+.PHONY : nc_controller/command.cpp.o
+
+nc_controller/command.i: nc_controller/command.cpp.i
+.PHONY : nc_controller/command.i
+
+# target to preprocess a source file
+nc_controller/command.cpp.i:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/nc_controller/command.cpp.i
+.PHONY : nc_controller/command.cpp.i
+
+nc_controller/command.s: nc_controller/command.cpp.s
+.PHONY : nc_controller/command.s
+
+# target to generate assembly for a file
+nc_controller/command.cpp.s:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/nc_controller/command.cpp.s
+.PHONY : nc_controller/command.cpp.s
+
+nc_controller/controller.o: nc_controller/controller.cpp.o
+.PHONY : nc_controller/controller.o
+
+# target to build an object file
+nc_controller/controller.cpp.o:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/nc_controller/controller.cpp.o
+.PHONY : nc_controller/controller.cpp.o
+
+nc_controller/controller.i: nc_controller/controller.cpp.i
+.PHONY : nc_controller/controller.i
+
+# target to preprocess a source file
+nc_controller/controller.cpp.i:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/nc_controller/controller.cpp.i
+.PHONY : nc_controller/controller.cpp.i
+
+nc_controller/controller.s: nc_controller/controller.cpp.s
+.PHONY : nc_controller/controller.s
+
+# target to generate assembly for a file
+nc_controller/controller.cpp.s:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/nc_controller/controller.cpp.s
+.PHONY : nc_controller/controller.cpp.s
+
+ncview/add_player_window.o: ncview/add_player_window.cpp.o
+.PHONY : ncview/add_player_window.o
+
+# target to build an object file
+ncview/add_player_window.cpp.o:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/ncview/add_player_window.cpp.o
+.PHONY : ncview/add_player_window.cpp.o
+
+ncview/add_player_window.i: ncview/add_player_window.cpp.i
+.PHONY : ncview/add_player_window.i
+
+# target to preprocess a source file
+ncview/add_player_window.cpp.i:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/ncview/add_player_window.cpp.i
+.PHONY : ncview/add_player_window.cpp.i
+
+ncview/add_player_window.s: ncview/add_player_window.cpp.s
+.PHONY : ncview/add_player_window.s
+
+# target to generate assembly for a file
+ncview/add_player_window.cpp.s:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/ncview/add_player_window.cpp.s
+.PHONY : ncview/add_player_window.cpp.s
+
+ncview/game_window.o: ncview/game_window.cpp.o
+.PHONY : ncview/game_window.o
+
+# target to build an object file
+ncview/game_window.cpp.o:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/ncview/game_window.cpp.o
+.PHONY : ncview/game_window.cpp.o
+
+ncview/game_window.i: ncview/game_window.cpp.i
+.PHONY : ncview/game_window.i
+
+# target to preprocess a source file
+ncview/game_window.cpp.i:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/ncview/game_window.cpp.i
+.PHONY : ncview/game_window.cpp.i
+
+ncview/game_window.s: ncview/game_window.cpp.s
+.PHONY : ncview/game_window.s
+
+# target to generate assembly for a file
+ncview/game_window.cpp.s:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/ncview/game_window.cpp.s
+.PHONY : ncview/game_window.cpp.s
+
+ncview/main_menu.o: ncview/main_menu.cpp.o
+.PHONY : ncview/main_menu.o
+
+# target to build an object file
+ncview/main_menu.cpp.o:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/ncview/main_menu.cpp.o
+.PHONY : ncview/main_menu.cpp.o
+
+ncview/main_menu.i: ncview/main_menu.cpp.i
+.PHONY : ncview/main_menu.i
+
+# target to preprocess a source file
+ncview/main_menu.cpp.i:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/ncview/main_menu.cpp.i
+.PHONY : ncview/main_menu.cpp.i
+
+ncview/main_menu.s: ncview/main_menu.cpp.s
+.PHONY : ncview/main_menu.s
+
+# target to generate assembly for a file
+ncview/main_menu.cpp.s:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/ncview/main_menu.cpp.s
+.PHONY : ncview/main_menu.cpp.s
+
+ncview/menu.o: ncview/menu.cpp.o
+.PHONY : ncview/menu.o
+
+# target to build an object file
+ncview/menu.cpp.o:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/ncview/menu.cpp.o
+.PHONY : ncview/menu.cpp.o
+
+ncview/menu.i: ncview/menu.cpp.i
+.PHONY : ncview/menu.i
+
+# target to preprocess a source file
+ncview/menu.cpp.i:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/ncview/menu.cpp.i
+.PHONY : ncview/menu.cpp.i
+
+ncview/menu.s: ncview/menu.cpp.s
+.PHONY : ncview/menu.s
+
+# target to generate assembly for a file
+ncview/menu.cpp.s:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/ncview/menu.cpp.s
+.PHONY : ncview/menu.cpp.s
+
+ncview/player_selection_window.o: ncview/player_selection_window.cpp.o
+.PHONY : ncview/player_selection_window.o
+
+# target to build an object file
+ncview/player_selection_window.cpp.o:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/ncview/player_selection_window.cpp.o
+.PHONY : ncview/player_selection_window.cpp.o
+
+ncview/player_selection_window.i: ncview/player_selection_window.cpp.i
+.PHONY : ncview/player_selection_window.i
+
+# target to preprocess a source file
+ncview/player_selection_window.cpp.i:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/ncview/player_selection_window.cpp.i
+.PHONY : ncview/player_selection_window.cpp.i
+
+ncview/player_selection_window.s: ncview/player_selection_window.cpp.s
+.PHONY : ncview/player_selection_window.s
+
+# target to generate assembly for a file
+ncview/player_selection_window.cpp.s:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/ncview/player_selection_window.cpp.s
+.PHONY : ncview/player_selection_window.cpp.s
+
+ncview/ui.o: ncview/ui.cpp.o
+.PHONY : ncview/ui.o
+
+# target to build an object file
+ncview/ui.cpp.o:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/ncview/ui.cpp.o
+.PHONY : ncview/ui.cpp.o
+
+ncview/ui.i: ncview/ui.cpp.i
+.PHONY : ncview/ui.i
+
+# target to preprocess a source file
+ncview/ui.cpp.i:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/ncview/ui.cpp.i
+.PHONY : ncview/ui.cpp.i
+
+ncview/ui.s: ncview/ui.cpp.s
+.PHONY : ncview/ui.s
+
+# target to generate assembly for a file
+ncview/ui.cpp.s:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/ncview/ui.cpp.s
+.PHONY : ncview/ui.cpp.s
+
+ncview/window.o: ncview/window.cpp.o
+.PHONY : ncview/window.o
+
+# target to build an object file
+ncview/window.cpp.o:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/ncview/window.cpp.o
+.PHONY : ncview/window.cpp.o
+
+ncview/window.i: ncview/window.cpp.i
+.PHONY : ncview/window.i
+
+# target to preprocess a source file
+ncview/window.cpp.i:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/ncview/window.cpp.i
+.PHONY : ncview/window.cpp.i
+
+ncview/window.s: ncview/window.cpp.s
+.PHONY : ncview/window.s
+
+# target to generate assembly for a file
+ncview/window.cpp.s:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/ncview/window.cpp.s
+.PHONY : ncview/window.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -147,6 +387,36 @@ help:
 	@echo "... main_noncurses.o"
 	@echo "... main_noncurses.i"
 	@echo "... main_noncurses.s"
+	@echo "... model/model.o"
+	@echo "... model/model.i"
+	@echo "... model/model.s"
+	@echo "... nc_controller/command.o"
+	@echo "... nc_controller/command.i"
+	@echo "... nc_controller/command.s"
+	@echo "... nc_controller/controller.o"
+	@echo "... nc_controller/controller.i"
+	@echo "... nc_controller/controller.s"
+	@echo "... ncview/add_player_window.o"
+	@echo "... ncview/add_player_window.i"
+	@echo "... ncview/add_player_window.s"
+	@echo "... ncview/game_window.o"
+	@echo "... ncview/game_window.i"
+	@echo "... ncview/game_window.s"
+	@echo "... ncview/main_menu.o"
+	@echo "... ncview/main_menu.i"
+	@echo "... ncview/main_menu.s"
+	@echo "... ncview/menu.o"
+	@echo "... ncview/menu.i"
+	@echo "... ncview/menu.s"
+	@echo "... ncview/player_selection_window.o"
+	@echo "... ncview/player_selection_window.i"
+	@echo "... ncview/player_selection_window.s"
+	@echo "... ncview/ui.o"
+	@echo "... ncview/ui.i"
+	@echo "... ncview/ui.s"
+	@echo "... ncview/window.o"
+	@echo "... ncview/window.i"
+	@echo "... ncview/window.s"
 .PHONY : help
 
 

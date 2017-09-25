@@ -5,7 +5,8 @@ project(cpp_draughts)
 
 
 #grab every h and cpp file located in source folder
-FILE(GLOB ALL_FILES "*.h" "*.cpp")
+FILE(GLOB ALL_FILES "*.h" "*.cpp" "model/*.h" "model/*.cpp" "nc_controller/*.h" "nc_controller/*.cpp" "ncview/*.h" "ncview/*.cpp")
+
 
 #force compiler to use c++14 if command line arg doesn't work
 SET(CMAKE_CXX_STANDARD 14)
@@ -20,7 +21,6 @@ SET(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/bin)
 SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 SET(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
- #git hellow world
 #everything below is related to boost library. 
 SET(Boost_USE_STATIC_LIBS       OFF)
 SET(Boost_USE_MULTITHREADED     ON)
