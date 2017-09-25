@@ -20,7 +20,7 @@ SET(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/bin)
 SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 SET(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
-
+ #git hellow world
 #everything below is related to boost library. 
 SET(Boost_USE_STATIC_LIBS       OFF)
 SET(Boost_USE_MULTITHREADED     ON)
