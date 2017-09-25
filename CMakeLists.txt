@@ -13,7 +13,7 @@ SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 #command line args
 SET(CMAKE_CXX_FLAGS "-Wall -pedantic -std=c++14 -lboost_system")
-
+SET(CMAKE_CXX_COMPILER "/usr/bin/g++-5")
 
 #nominating directories
 SET(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/bin)
@@ -31,7 +31,7 @@ if (Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
 
     #this line creates the binary
-    add_executable(cpp_data_structures ${ALL_FILES})
+    add_executable(cpp_draughts ${ALL_FILES})
 
     #link the boost libraries to the binary
     target_link_libraries(cpp_draughts ${Boost_LIBRARIES})
