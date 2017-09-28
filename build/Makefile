@@ -135,6 +135,30 @@ main_noncurses.cpp.s:
 	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/main_noncurses.cpp.s
 .PHONY : main_noncurses.cpp.s
 
+model/fileio.o: model/fileio.cpp.o
+.PHONY : model/fileio.o
+
+# target to build an object file
+model/fileio.cpp.o:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/model/fileio.cpp.o
+.PHONY : model/fileio.cpp.o
+
+model/fileio.i: model/fileio.cpp.i
+.PHONY : model/fileio.i
+
+# target to preprocess a source file
+model/fileio.cpp.i:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/model/fileio.cpp.i
+.PHONY : model/fileio.cpp.i
+
+model/fileio.s: model/fileio.cpp.s
+.PHONY : model/fileio.s
+
+# target to generate assembly for a file
+model/fileio.cpp.s:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/model/fileio.cpp.s
+.PHONY : model/fileio.cpp.s
+
 model/model.o: model/model.cpp.o
 .PHONY : model/model.o
 
@@ -387,6 +411,9 @@ help:
 	@echo "... main_noncurses.o"
 	@echo "... main_noncurses.i"
 	@echo "... main_noncurses.s"
+	@echo "... model/fileio.o"
+	@echo "... model/fileio.i"
+	@echo "... model/fileio.s"
 	@echo "... model/model.o"
 	@echo "... model/model.i"
 	@echo "... model/model.s"

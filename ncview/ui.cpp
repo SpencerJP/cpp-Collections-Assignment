@@ -31,7 +31,8 @@ void draughts::ncview::ui::play_game(void)
     }
     catch(std::exception& ex)
     {
-        std::cerr << "Exception: " << std::endl;
+        
+        std::cerr << "Exception: " << ex.what() << std::endl;
     }
 }
 
