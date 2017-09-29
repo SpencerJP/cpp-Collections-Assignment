@@ -7,6 +7,7 @@
 #include <thread>
 #include <chrono>
 #include "fileio.h"
+#include "players.h"
 
 #include <boost/tokenizer.hpp>
 
@@ -21,7 +22,6 @@ namespace draughts
             static std::unique_ptr<model> instance;
 
             model(void);
-            bool player_exists(const std::string&);
 
             public:
             void start_game(int, int);
@@ -30,8 +30,8 @@ namespace draughts
 
             void add_player(const std::string& );
             int get_player_score(int);
-            int get_current_player(void);
             std::string get_player_name(int);
+            int get_current_player(void);
             std::map<int, std::string> get_player_list(void) const;
             int get_winner();
             int get_width();

@@ -183,6 +183,30 @@ model/model.cpp.s:
 	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/model/model.cpp.s
 .PHONY : model/model.cpp.s
 
+model/players.o: model/players.cpp.o
+.PHONY : model/players.o
+
+# target to build an object file
+model/players.cpp.o:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/model/players.cpp.o
+.PHONY : model/players.cpp.o
+
+model/players.i: model/players.cpp.i
+.PHONY : model/players.i
+
+# target to preprocess a source file
+model/players.cpp.i:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/model/players.cpp.i
+.PHONY : model/players.cpp.i
+
+model/players.s: model/players.cpp.s
+.PHONY : model/players.s
+
+# target to generate assembly for a file
+model/players.cpp.s:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/model/players.cpp.s
+.PHONY : model/players.cpp.s
+
 nc_controller/command.o: nc_controller/command.cpp.o
 .PHONY : nc_controller/command.o
 
@@ -417,6 +441,9 @@ help:
 	@echo "... model/model.o"
 	@echo "... model/model.i"
 	@echo "... model/model.s"
+	@echo "... model/players.o"
+	@echo "... model/players.i"
+	@echo "... model/players.s"
 	@echo "... nc_controller/command.o"
 	@echo "... nc_controller/command.i"
 	@echo "... nc_controller/command.s"

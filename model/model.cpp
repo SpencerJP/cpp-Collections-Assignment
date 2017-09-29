@@ -45,90 +45,24 @@ void draughts::model::model::make_move(int playernum,
 {
 }
 
-void draughts::model::model::add_player(const std::string& p)
+std::map<int, std::string> draughts::model::model::get_player_list(void)
+    const
 {
-    std::map<int, std::string> playersList;
-    std::string toWrite = "";
-    if (draughts::model::model::player_exists(p)) {
-        throw std::runtime_error(std::string("model::model: player exists!"));
-    }
-    try {
-        playersList = draughts::model::model::get_player_list();
-        int i = 1;
-        for(auto const &player : playersList) {
-            if(player.first > i) {
-                i = player.first + 1;
-            }
-        }
-        std::cout << i << std::endl;
-        playersList[i] = p;
-    }
-    catch(std::exception &ex) {
-        std::cout << "t" << std::endl;
-        playersList = std::map<int,std::string>();
-        playersList[1] = p;
-    }
-    for(auto const &player : playersList) {
-        toWrite = toWrite + player.second + ";";
-    }
-    draughts::model::fileio fileio;
-    fileio.writeFile(toWrite, "players.txt");
-    
+    draughts::model::players players;
+    return players.get_player_list();
 }
 
-bool draughts::model::model::player_exists(const std::string& pname)
+void draughts::model::model::add_player(const std::string& p)
 {
-    try {
-        
-        draughts::model::fileio fileio;
-        std::string playersFile = fileio.readFile("players.txt");
-    }
-    catch(std::exception& ex)
-    {
-        return false; // file doesn't exist so we don't have any players at all
-    }
-    std::map<int, std::string> playerList = draughts::model::model::get_player_list();
-    for(auto const &player : playerList) {
-        if(player.second == pname) {
-            return true;
-        }
-    }
-    return false;
+    draughts::model::players players;
+    players.add_player(p);
 }
 
 int draughts::model::model::get_current_player(void)
-{
-    
-    return EOF;
+{   
+    draughts::model::players players;
+    return players.get_current_player();
 }
-
-std::map<int, std::string> draughts::model::model::get_player_list(void) 
-    const
-{
-    std::map<int, std::string> nameslist;
-    std::string playersFile;
-    
-    draughts::model::fileio fileio;
-    
-    playersFile = fileio.readFile("players.txt"); // throws if file doesn't exist
-    
-    std::istringstream is(playersFile);
-    typedef boost::tokenizer<boost::char_separator<char>> tokenizer; // make it shorter to type
-    std::string line;
-    boost::char_separator<char> sep(";");    //CSV format
-        
-        while (getline(is, line)) {
-            tokenizer t(line, sep);
-            int i = 1;
-            
-            for (tokenizer::iterator it = t.begin(); it != t.end(); ++it) {
-                nameslist[i] = *it;
-            }
-        }
-    
-    return nameslist;
-}
-
 
 void draughts::model::model::delete_instance(void)
 {
