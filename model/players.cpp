@@ -8,22 +8,18 @@ void draughts::model::players::add_player(const std::string& p)
         throw std::runtime_error(std::string("model::model: player exists!"));
     }
     try {
+        std::cout << "get_player_list: " << std::endl;
         playersList = draughts::model::players::get_player_list();
-        int i = 1;
-        for(auto const &player : playersList) {
-            if(player.first > i) {
-                i = player.first + 1;
-            }
-        }
-        std::cout << i << std::endl;
+        std::cout << "get_player_list done " << std::endl;
+        int i = playersList.size() + 1;
         playersList[i] = p;
     }
     catch(std::exception &ex) {
-        std::cout << "t" << std::endl;
         playersList = std::map<int,std::string>();
         playersList[1] = p;
     }
     for(auto const &player : playersList) {
+        std::cout << player.first << " " << player.second << std::endl;
         toWrite = toWrite + player.second + ";";
     }
     draughts::model::fileio fileio;
@@ -77,6 +73,10 @@ std::map<int, std::string> draughts::model::players::get_player_list(void)
             int i = 1;
             
             for (tokenizer::iterator it = t.begin(); it != t.end(); ++it) {
+                if ((*it == "") || (*it == " ")) { // hack to fix strange bug
+                    continue;
+                }
+                std::cout << "*it: " << *it << std::endl;
                 nameslist[i] = *it;
             }
         }
