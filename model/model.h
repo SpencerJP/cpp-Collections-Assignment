@@ -7,7 +7,7 @@
 #include <thread>
 #include <chrono>
 #include "fileio.h"
-#include "players.h"
+#include "players_statics.h"
 
 #include <boost/tokenizer.hpp>
 

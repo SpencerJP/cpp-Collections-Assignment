@@ -3,6 +3,7 @@
 std::unique_ptr<draughts::model::model> draughts::model::model::instance =
 nullptr;
 
+
 draughts::model::model::model(void) 
 {
 }
@@ -17,8 +18,9 @@ draughts::model::model * draughts::model::model::get_instance(void)
 }
 
 int draughts::model::model::get_player_score(int playernum)
-{
-    return EOF;
+{   
+    draughts::model::players players;
+    return players.get_player_from_num(playernum).score;
 }
 
 void draughts::model::model::start_game(int plr1, int plr2)
@@ -32,11 +34,13 @@ int draughts::model::model::get_winner()
 
 std::string draughts::model::model::get_player_name(int id)
 {
-    return "";
+    draughts::model::players players;
+    return players.get_player_list()[id];
 }
 
 char draughts::model::model::get_token(int x ,int y)
 {
+    //return draughts::model::board::get_instance
     return '\0';
 }
 
@@ -72,11 +76,13 @@ void draughts::model::model::delete_instance(void)
 
 int draughts::model::model::get_width()
 {
+    //draughts::model::board::get_instance().get_width();
     return EOF;
 }
 
 int draughts::model::model::get_height()
 {
+    //draughts::model::board::get_instance().get_height();
     return EOF;
 }
 

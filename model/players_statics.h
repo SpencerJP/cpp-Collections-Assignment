@@ -21,15 +21,23 @@ namespace draughts
         
         class fileio;
         
+        class player;
+        
         class players
         {
+            static std::unique_ptr<model> instance;
+            
             public:
+                std::pair<draughts::model::player, draughts::model::player> currentPlayers;
                 bool player_exists(const std::string&);
                 void add_player(const std::string& );
-                int get_player_score(int);
-                int get_current_player(void);
                 std::string get_player_name(int);
+                
+                static players * get_instance(void);
+                static void delete_instance(void);
                 std::map<int, std::string> get_player_list(void) const;
+
+                
         };
     }
 }

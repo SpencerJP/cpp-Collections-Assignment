@@ -1,4 +1,7 @@
-#include "players.h"
+#include "players_statics.h"
+
+std::unique_ptr<draughts::model::players> draughts::model::players::instance =
+nullptr;
 
 void draughts::model::players::add_player(const std::string& p)
 {
@@ -28,7 +31,7 @@ void draughts::model::players::add_player(const std::string& p)
 }
 
 bool draughts::model::players::player_exists(const std::string& pname)
-{
+{   
     try {
         
         draughts::model::fileio fileio;
@@ -39,18 +42,12 @@ bool draughts::model::players::player_exists(const std::string& pname)
         return false; // file doesn't exist so we don't have any players at all
     }
     std::map<int, std::string> playerList = draughts::model::players::get_player_list();
-    for(auto const &player : playerList) {
+    for(auto player : playerList) {
         if(player.second == pname) {
             return true;
         }
     }
     return false;
-}
-
-int draughts::model::players::get_current_player(void)
-{
-    
-    return EOF;
 }
 
 std::map<int, std::string> draughts::model::players::get_player_list(void) 
@@ -78,8 +75,15 @@ std::map<int, std::string> draughts::model::players::get_player_list(void)
                 }
                 std::cout << "*it: " << *it << std::endl;
                 nameslist[i] = *it;
+                i++;
             }
         }
-    
+    std::cout << nameslist.size() << std::endl;
     return nameslist;
+}
+
+
+void draughts::model::model::delete_instance(void)
+{
+    instance.reset(nullptr);
 }

@@ -183,29 +183,29 @@ model/model.cpp.s:
 	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/model/model.cpp.s
 .PHONY : model/model.cpp.s
 
-model/players.o: model/players.cpp.o
-.PHONY : model/players.o
+model/players_statics.o: model/players_statics.cpp.o
+.PHONY : model/players_statics.o
 
 # target to build an object file
-model/players.cpp.o:
-	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/model/players.cpp.o
-.PHONY : model/players.cpp.o
+model/players_statics.cpp.o:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/model/players_statics.cpp.o
+.PHONY : model/players_statics.cpp.o
 
-model/players.i: model/players.cpp.i
-.PHONY : model/players.i
+model/players_statics.i: model/players_statics.cpp.i
+.PHONY : model/players_statics.i
 
 # target to preprocess a source file
-model/players.cpp.i:
-	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/model/players.cpp.i
-.PHONY : model/players.cpp.i
+model/players_statics.cpp.i:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/model/players_statics.cpp.i
+.PHONY : model/players_statics.cpp.i
 
-model/players.s: model/players.cpp.s
-.PHONY : model/players.s
+model/players_statics.s: model/players_statics.cpp.s
+.PHONY : model/players_statics.s
 
 # target to generate assembly for a file
-model/players.cpp.s:
-	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/model/players.cpp.s
-.PHONY : model/players.cpp.s
+model/players_statics.cpp.s:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/model/players_statics.cpp.s
+.PHONY : model/players_statics.cpp.s
 
 nc_controller/command.o: nc_controller/command.cpp.o
 .PHONY : nc_controller/command.o
@@ -441,9 +441,9 @@ help:
 	@echo "... model/model.o"
 	@echo "... model/model.i"
 	@echo "... model/model.s"
-	@echo "... model/players.o"
-	@echo "... model/players.i"
-	@echo "... model/players.s"
+	@echo "... model/players_statics.o"
+	@echo "... model/players_statics.i"
+	@echo "... model/players_statics.s"
 	@echo "... nc_controller/command.o"
 	@echo "... nc_controller/command.i"
 	@echo "... nc_controller/command.s"
