@@ -7,7 +7,7 @@
 #include <thread>
 #include <chrono>
 #include "fileio.h"
-#include "players.h"
+#include "players_statics.h"
 
 #include <boost/tokenizer.hpp>
 
@@ -24,6 +24,8 @@ namespace draughts
             model(void);
 
             public:
+            int turnNumber; // amount of turns elapsed
+            
             void start_game(int, int);
             char get_token(int,int);
             void make_move(int, int, int, int, int);
