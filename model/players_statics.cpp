@@ -3,6 +3,15 @@
 std::unique_ptr<draughts::model::players> draughts::model::players::instance =
 nullptr;
 
+draughts::model::players * draughts::model::players::get_instance(void)
+{
+    if(instance == nullptr)
+    {
+        instance = std::unique_ptr<players>(new players);	
+    }
+    return instance.get();    
+}
+
 void draughts::model::players::add_player(const std::string& p)
 {
     std::map<int, std::string> playersList;
@@ -83,7 +92,28 @@ std::map<int, std::string> draughts::model::players::get_player_list(void)
 }
 
 
-void draughts::model::model::delete_instance(void)
+void draughts::model::players::delete_instance(void)
 {
     instance.reset(nullptr);
+}
+
+int draughts::model::players::get_current_player(int x)
+{
+    int turnNumber = x;
+    if ((turnNumber == 0) || (turnNumber % 2 == 0)) {
+        return currentPlayers.first.playernum;
+    }
+    else {
+        return currentPlayers.second.playernum;
+    }
+}
+
+draughts::model::player draughts::model::players::get_player_from_num(int a)
+{
+    if(currentPlayers.first == a) { // operator overloading example
+        return currentPlayers.first;
+    }
+    else {
+        return currentPlayers.second;
+    }
 }

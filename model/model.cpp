@@ -19,12 +19,19 @@ draughts::model::model * draughts::model::model::get_instance(void)
 
 int draughts::model::model::get_player_score(int playernum)
 {   
-    draughts::model::players players;
-    return players.get_player_from_num(playernum).score;
+    
+    return draughts::model::players::get_instance()->get_player_from_num(playernum).getScore();
 }
 
 void draughts::model::model::start_game(int plr1, int plr2)
 {
+    // TODO //
+    draughts::model::player player1;
+    draughts::model::player player2;
+    player1.playernum = plr1;
+    player2.playernum = plr2;
+    this->turnNumber = 0;
+    draughts::model::players::get_instance()->currentPlayers = std::make_pair(player1, player2);
 }
 
 int draughts::model::model::get_winner()
@@ -35,12 +42,12 @@ int draughts::model::model::get_winner()
 std::string draughts::model::model::get_player_name(int id)
 {
     draughts::model::players players;
-    return players.get_player_list()[id];
+    return draughts::model::players::get_instance()->get_player_list()[id];
 }
 
 char draughts::model::model::get_token(int x ,int y)
 {
-    //return draughts::model::board::get_instance
+    //return draughts::model::board::get_instance->get_token(x, y);
     return '\0';
 }
 
@@ -52,20 +59,18 @@ void draughts::model::model::make_move(int playernum,
 std::map<int, std::string> draughts::model::model::get_player_list(void)
     const
 {
-    draughts::model::players players;
-    return players.get_player_list();
+    return draughts::model::players::get_instance()->get_player_list();
 }
 
 void draughts::model::model::add_player(const std::string& p)
 {
-    draughts::model::players players;
-    players.add_player(p);
+
+    draughts::model::players::get_instance()->add_player(p);
 }
 
 int draughts::model::model::get_current_player(void)
 {   
-    draughts::model::players players;
-    return players.get_current_player();
+    return draughts::model::players::get_instance()->get_current_player(this->turnNumber);
 }
 
 void draughts::model::model::delete_instance(void)
