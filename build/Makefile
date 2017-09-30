@@ -135,6 +135,54 @@ main_noncurses.cpp.s:
 	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/main_noncurses.cpp.s
 .PHONY : main_noncurses.cpp.s
 
+model/board.o: model/board.cpp.o
+.PHONY : model/board.o
+
+# target to build an object file
+model/board.cpp.o:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/model/board.cpp.o
+.PHONY : model/board.cpp.o
+
+model/board.i: model/board.cpp.i
+.PHONY : model/board.i
+
+# target to preprocess a source file
+model/board.cpp.i:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/model/board.cpp.i
+.PHONY : model/board.cpp.i
+
+model/board.s: model/board.cpp.s
+.PHONY : model/board.s
+
+# target to generate assembly for a file
+model/board.cpp.s:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/model/board.cpp.s
+.PHONY : model/board.cpp.s
+
+model/checker.o: model/checker.cpp.o
+.PHONY : model/checker.o
+
+# target to build an object file
+model/checker.cpp.o:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/model/checker.cpp.o
+.PHONY : model/checker.cpp.o
+
+model/checker.i: model/checker.cpp.i
+.PHONY : model/checker.i
+
+# target to preprocess a source file
+model/checker.cpp.i:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/model/checker.cpp.i
+.PHONY : model/checker.cpp.i
+
+model/checker.s: model/checker.cpp.s
+.PHONY : model/checker.s
+
+# target to generate assembly for a file
+model/checker.cpp.s:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/model/checker.cpp.s
+.PHONY : model/checker.cpp.s
+
 model/fileio.o: model/fileio.cpp.o
 .PHONY : model/fileio.o
 
@@ -158,6 +206,30 @@ model/fileio.s: model/fileio.cpp.s
 model/fileio.cpp.s:
 	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/model/fileio.cpp.s
 .PHONY : model/fileio.cpp.s
+
+model/king.o: model/king.cpp.o
+.PHONY : model/king.o
+
+# target to build an object file
+model/king.cpp.o:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/model/king.cpp.o
+.PHONY : model/king.cpp.o
+
+model/king.i: model/king.cpp.i
+.PHONY : model/king.i
+
+# target to preprocess a source file
+model/king.cpp.i:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/model/king.cpp.i
+.PHONY : model/king.cpp.i
+
+model/king.s: model/king.cpp.s
+.PHONY : model/king.s
+
+# target to generate assembly for a file
+model/king.cpp.s:
+	$(MAKE) -f CMakeFiles/cpp_draughts.dir/build.make CMakeFiles/cpp_draughts.dir/model/king.cpp.s
+.PHONY : model/king.cpp.s
 
 model/model.o: model/model.cpp.o
 .PHONY : model/model.o
@@ -459,9 +531,18 @@ help:
 	@echo "... main_noncurses.o"
 	@echo "... main_noncurses.i"
 	@echo "... main_noncurses.s"
+	@echo "... model/board.o"
+	@echo "... model/board.i"
+	@echo "... model/board.s"
+	@echo "... model/checker.o"
+	@echo "... model/checker.i"
+	@echo "... model/checker.s"
 	@echo "... model/fileio.o"
 	@echo "... model/fileio.i"
 	@echo "... model/fileio.s"
+	@echo "... model/king.o"
+	@echo "... model/king.i"
+	@echo "... model/king.s"
 	@echo "... model/model.o"
 	@echo "... model/model.i"
 	@echo "... model/model.s"

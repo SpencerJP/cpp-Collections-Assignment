@@ -8,6 +8,7 @@
 #include <chrono>
 #include "fileio.h"
 #include "players_statics.h"
+#include "board.h"
 
 #include <boost/tokenizer.hpp>
 

@@ -1,11 +1,25 @@
 #include <vector>
 
-class Checker {
-    char team;
+#pragma once
+
+namespace draughts {
+    namespace model {
+        class checker {
     
-    public:
-    Checker(char);
-    vector<pair<int,int>> draughts::model::checker::possibleDirections(void);
-    char draughts::model::checker::getPieceChar(void);
-    
+            public:
+            char team;
+            int x;
+            int y;
+            checker(void);
+            std::vector<std::pair<int,int>> possibleDirections(void);
+            char getPieceChar(void);
+            void setLocation(int x, int y);
+            bool isAtLocation(int x, int y);
+            
+            char operator<<(char x) {
+                this->team = x;
+                return this->team;
+            }
+        };
+    }
 }

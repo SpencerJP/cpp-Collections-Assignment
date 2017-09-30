@@ -32,6 +32,8 @@ void draughts::model::model::start_game(int plr1, int plr2)
     player2.playernum = plr2;
     this->turnNumber = 0;
     draughts::model::players::get_instance()->currentPlayers = std::make_pair(player1, player2);
+    draughts::model::board * board = draughts::model::board::get_instance(); // initializes board
+    board->start_game();
 }
 
 int draughts::model::model::get_winner()
@@ -47,8 +49,7 @@ std::string draughts::model::model::get_player_name(int id)
 
 char draughts::model::model::get_token(int x ,int y)
 {
-    //return draughts::model::board::get_instance->get_token(x, y);
-    return '\0';
+    return draughts::model::board::get_instance()->get_token(x, y);
 }
 
 void draughts::model::model::make_move(int playernum,
@@ -81,14 +82,12 @@ void draughts::model::model::delete_instance(void)
 
 int draughts::model::model::get_width()
 {
-    //draughts::model::board::get_instance().get_width();
-    return EOF;
+    return draughts::model::board::get_instance()->get_width();
 }
 
 int draughts::model::model::get_height()
 {
-    //draughts::model::board::get_instance().get_height();
-    return EOF;
+    return draughts::model::board::get_instance()->get_height();
 }
 
 draughts::model::model::~model(void)
