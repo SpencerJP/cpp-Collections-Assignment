@@ -7,6 +7,13 @@
 
 #define BOARD_SIZE 8
 
+<<<<<<< HEAD
+class Board {
+    draughts::model::checker[BOARD_SIZE][BOARD_SIZE] boardSpace;
+    draughts::model::checker lastMoved;
+    public:
+    void makeMove(int, int, int, int, int);
+=======
 namespace draughts {
     namespace model {
         
@@ -46,8 +53,7 @@ namespace draughts {
             
             char get_token(int x ,int y);
             
-            private:
-            checker *lastMoved;
         };
     }
+>>>>>>> 3145d8480fdac8cbd0aa950eeeb3356714b31379
 }

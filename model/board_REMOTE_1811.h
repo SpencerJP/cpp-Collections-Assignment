@@ -46,8 +46,6 @@ namespace draughts {
             
             char get_token(int x ,int y);
             
-            private:
-            checker *lastMoved;
         };
     }
 }
