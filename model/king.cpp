@@ -38,10 +38,5 @@ std::vector<std::pair<int,int>> draughts::model::king::possibleDirections(void) 
             moves.push_back(bottomRight);
         }
     }
-    
-    moves.push_back(topLeft);
-    moves.push_back(topRight);
-    moves.push_back(bottomLeft);
-    moves.push_back(bottomRight);
     return moves;
 }
