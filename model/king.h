@@ -13,7 +13,7 @@ namespace draughts {
         
         class king : public checker{
             public:
-                std::vector<std::pair<int,int>> possibleDirections(void);
+                std::vector<std::pair<int,int>> possibleDirections(std::vector<checker> checkers);
                 char getPieceChar(void); 
         };
     }
