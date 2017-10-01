@@ -47,7 +47,7 @@ std::pair<std::pair<int,int>, std::pair<int,int>>
     std::pair<int,int> start;
     std::pair<int,int> end;
     std::cout << "Please enter your next move: " ;
-    get_input(input);
+    input = window::get_input(themodel->get_player_name(themodel->get_current_player()));
     std::vector<std::string> moves;
     std::vector<std::string> coords;
     boost::split(moves, input, [](char ch){return ch == '-';});
@@ -74,8 +74,8 @@ std::pair<int,int> draughts::ncview::game_window::strtocoord(
     int x, y;
     std::vector<std::string> parts;
     boost::split(parts, input, [](char ch){ return ch == ',';});
-    x = stoi(parts[0]);
-    y = stoi(parts[1]);
+    x = std::stoi(parts[0]);
+    y = std::stoi(parts[1]);
     return std::make_pair(x,y);
 }
 

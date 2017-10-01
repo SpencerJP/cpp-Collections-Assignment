@@ -39,7 +39,7 @@ void draughts::model::board::makeMove(int id, int startx, int starty, int endx, 
 
 void draughts::model::board::populateRow(bool even, int row, char team) {
     if (even) {
-        for (int i = 0; i < BOARD_SIZE; i = i+2) {
+        for (int i = 0; i <= BOARD_SIZE; i = i+2) {
             
             draughts::model::checker checker;
             checker << team; // overloading operators example
@@ -47,7 +47,7 @@ void draughts::model::board::populateRow(bool even, int row, char team) {
             checkers.push_back(checker);
         }
     } else {
-        for (int i = 1; i < BOARD_SIZE; i = i+2) {
+        for (int i = 1; i <= BOARD_SIZE; i = i+2) {
             
             draughts::model::checker checker;
             checker << team;  // overloading operators example
@@ -75,5 +75,5 @@ char draughts::model::board::get_token(int x, int y) {
             return token.team;
         }
     }
-    return false;
+    return ' ';
 }

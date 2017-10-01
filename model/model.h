@@ -6,6 +6,7 @@
 #include <map>
 #include <thread>
 #include <chrono>
+#include <random>
 #include "fileio.h"
 #include "players_statics.h"
 #include "board.h"
