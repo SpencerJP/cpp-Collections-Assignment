@@ -45,9 +45,7 @@ namespace draughts {
             void populateRow(bool even, int row, char team);
             
             char get_token(int x ,int y);
-            
-            private:
-            checker *lastMoved;
+            void postMove(int team, int endx, int endy);
         };
     }
 }

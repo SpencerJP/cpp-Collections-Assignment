@@ -38,7 +38,6 @@ bool draughts::model::checker::isAtLocation(std::pair<int, int> coords) {
     return true;
 }
 
-
 // std::vector<std::pair<int,int>> draughts::model::checker::possibleDirections(std::vector<checker> checkers) {
 //     std::vector<std::pair<int,int>> moves;
 //     std::pair<int,int> topLeft = std::make_pair<int,int>(-1,1);

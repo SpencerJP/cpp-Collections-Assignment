@@ -88,6 +88,7 @@ void draughts::model::board::makeMove(int id, int startx, int starty, int endx, 
                         if (d.isAtLocation(adj_loc)) {  //Checks if there is a piece at the adjacent spot
                             if (d.playerId == id) { //Can't jump over your own piece?
                                 //FAILURE
+                                return;
                             }
                             
                             std::pair<int, int> att_loc = std::make_pair(adj_loc.first * 2, adj_loc.second * 2);  //Location of attack location
@@ -99,15 +100,37 @@ void draughts::model::board::makeMove(int id, int startx, int starty, int endx, 
                             }
                             
                             if (endx == att_loc.first && endy == att_loc.second) {  //Checks that the free space is the desired location
-                                //SUCCESS
-                                // if () { //Check whether or not the player has to chain attacks
-                                    
-                                // }
+                                //now check whether player has to chain moves
+                                for (std::pair<int,int> dir : selected.possibleDirections()) {
+                                    std::pair<int, int> adj_loc2 = std::make_pair(startx + dir.first, starty + dir.second); //Location of adjacent spot  
+                                    for (draughts::model::checker d : checkers) {
+                                        if (d.isAtLocation(adj_loc2)) {
+                                            if (d.playerId == id)
+                                                continue;
+                                            std::pair<int, int> att_loc2 = std::make_pair(adj_loc2.first * 2, adj_loc2.second * 2);
+                                            bool canTake = true;
+                                            for (draughts::model::checker e : checkers) {
+                                                if (e.isAtLocation(att_loc2)) {
+                                                    canTake = false;
+                                                    break;
+                                                }
+                                            }
+                                            if (canTake) {
+                                                //SUCCESS, player must chain moves
+                                                postMove(id, endx, endy);
+                                                return;
+                                            }
+                                        }
+                                    }
+                                }
+                                //SUCCESS, player can't chain moves
+                                postMove(id, endx, endy);
                                 return;
                             }
                         }
                     }
                     if (endx == adj_loc.first && endy == adj_loc.second) {  //Checks that the free space is the desired location
+                        postMove(id, endx, endy);
                         //SUCCESS
                         return;
                     }
@@ -118,6 +141,23 @@ void draughts::model::board::makeMove(int id, int startx, int starty, int endx, 
         }
     }
     //FAILURE: NOT FOUND
+    return;
+}
+
+void draughts::model::board::postMove(int team, int endx, int endy) {
+    int row = team * 7; //If team is 1, row for king is 7, if team is 0, row for king is 0
+    for (auto it = checkers.begin(); it != checkers.end(); it++) {
+        if ((*it).isAtLocation(endx, endy)) {
+            if ((*it).y == row) {
+                draughts::model::king temp;
+                temp.setLocation(endx, endy);
+                temp << team;
+                checkers.push_back(temp);
+                checkers.erase(it);
+            }
+            break;
+        }
+    }
     return;
 }
 
