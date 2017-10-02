@@ -99,7 +99,7 @@ void draughts::model::board::makeMove(int id, int startx, int starty, int endx, 
                             }
                             
                             if (endx == att_loc.first && endy == att_loc.second) {  //Checks that the free space is the desired location
-                                //SUCCESS
+                                executeMove(id, startx, starty, endx, endy);
                                 // if () { //Check whether or not the player has to chain attacks
                                     
                                 // }
@@ -108,7 +108,7 @@ void draughts::model::board::makeMove(int id, int startx, int starty, int endx, 
                         }
                     }
                     if (endx == adj_loc.first && endy == adj_loc.second) {  //Checks that the free space is the desired location
-                        //SUCCESS
+                        executeMove(id, startx, starty, endx, endy);
                         return;
                     }
                 }
@@ -135,12 +135,32 @@ void draughts::model::board::populateRow(bool even, int row, char team) {
 
 void draughts::model::board::clearBoard(void) {
     this->checkers.clear();
-    /*
-    for (int i = 0; i < BOARD_SIZE; i++)
-        for (int j = 0; j < BOARD_SIZE; j++)
-            boardSpace[i][j] = draughts::model::checker('\0'); */
-            
 }
+
+void draughts::model::board::executeMove(int id, int startx, int starty, int endx, int endy) {
+    draughts::model::checker * checkerToMove;
+    for(auto checker : this->checkers) {
+        if(checker.isAtLocation(startx, starty)) {
+            checkerToMove = &checker;
+            break;
+        }
+    }
+    if (std::abs(endx) == 1) { // TODO REMOVE C FUNCTION, REPLACE WITH STDLIB.
+        checkerToMove->setLocation(endx, endy);
+    }
+    else {
+        draughts::model::checker * checkerToDestroy;
+        for(auto checker : this->checkers) {
+            if(checker.isAtLocation(startx + endx, starty)) {
+                checkerToDestroy = &checker;
+                break;
+            }
+        }
+        this->checkers.erase(std::remove( this->checkers.begin(),  this->checkers.end(), *checkerToDestroy), this->checkers.end());
+        draughts::model::model::get_instance()->currentPlayers.first.playernum == id ? draughts::model::model::get_instance()->currentPlayers.first++ : draughts::model::model::get_instance()->currentPlayers.second++
+    }
+    
+} 
 
 char draughts::model::board::get_token(int x, int y) {
     // TODO

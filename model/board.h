@@ -2,6 +2,7 @@
 #include <memory>
 #include "checker.h"
 #include "king.h"
+#include "players_statics.h"
 
 #pragma once
 
