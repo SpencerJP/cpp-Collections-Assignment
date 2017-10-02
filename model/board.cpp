@@ -34,27 +34,62 @@ void draughts::model::board::start_game(void) {
 }
 
 void draughts::model::board::makeMove(int id, int startx, int starty, int endx, int endy) {
+    
+    int dirx = startx - endx;
+    int diry = starty - endy;
+    
+    if (dirx % diry != 0) { //Makes sure direction is 45/135/225/315 degrees
+        //FAILURE
+        return;
+    }
+    
+    if (dirx > 2 || dirx < -2 || dirx == 0) { //Makes sure that the length of the move is valid
+        //FAILURE
+        return;
+    }
+
+    //Populate vector available with all pieces on your team that can take an enemy piece
+    std::vector<draughts::model::checker> available;
     for (draughts::model::checker c : checkers) {
-        if (c.isAtLocation(startx,starty) && c.playerId == id) {  //Makes sure player moving piece owns piece
-        
-            int dirx = startx - endx;
-            int diry = starty - endy;
-            
-            if (dirx % diry != 0) { //Makes sure direction is 45/135/225/315 degrees
-                //FAILURE
-                return;
+        if (c.playerId == id) {
+            for (std::pair<int,int> dir : c.possibleDirections()) {
+                std::pair<int, int> adj_loc = std::make_pair(startx + dir.first, starty + dir.second); //Location of adjacent spot  
+                for (draughts::model::checker d : checkers) {
+                    if (d.isAtLocation(adj_loc)) {
+                        if (d.playerId == id)
+                            continue;
+                        std::pair<int, int> att_loc = std::make_pair(adj_loc.first * 2, adj_loc.second * 2);
+                        bool canTake = true;
+                        for (draughts::model::checker e : checkers) {
+                            if (e.isAtLocation(att_loc)) {
+                                canTake = false;
+                                break;
+                            }
+                        }
+                        if (canTake)
+                            available.push_back(c);
+                        break;
+                    }
+                }
             }
-            
-            if (dirx > 2 || dirx < -2 || dirx == 0) { //Makes sure that the length of the move is valid
-                //FAILURE
-                return;
-            }
+        }
+    }
+    
+    std::vector<draughts::model::checker> searchSpace = available;
+    if (available.empty())
+        searchSpace = checkers;
         
-            for (std::pair<int,int> dir : c.possibleDirections()) {  //Gets direction piece can move
+    for (draughts::model::checker selected : searchSpace) {
+        if (selected.isAtLocation(startx,starty) && selected.playerId == id) {  //Makes sure player moving piece owns piece
+            for (std::pair<int,int> dir : selected.possibleDirections()) {  //Gets direction piece can move
                 if (dirx / dir.first > 0 && diry / dir.second > 0) {    //Makes sure that the direction is correct
                     std::pair<int, int> adj_loc = std::make_pair(startx + dir.first, starty + dir.second); //Location of adjacent spot
                     for (draughts::model::checker d : checkers) { 
                         if (d.isAtLocation(adj_loc)) {  //Checks if there is a piece at the adjacent spot
+                            if (d.playerId == id) { //Can't jump over your own piece?
+                                //FAILURE
+                            }
+                            
                             std::pair<int, int> att_loc = std::make_pair(adj_loc.first * 2, adj_loc.second * 2);  //Location of attack location
                             for (draughts::model::checker e : checkers) {
                                 if (e.isAtLocation(att_loc)) {    //Checks if there is a piece at the attack location
@@ -62,8 +97,12 @@ void draughts::model::board::makeMove(int id, int startx, int starty, int endx, 
                                     return;
                                 }
                             }
+                            
                             if (endx == att_loc.first && endy == att_loc.second) {  //Checks that the free space is the desired location
                                 //SUCCESS
+                                // if () { //Check whether or not the player has to chain attacks
+                                    
+                                // }
                                 return;
                             }
                         }
