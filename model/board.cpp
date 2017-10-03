@@ -39,11 +39,11 @@ void draughts::model::board::makeMove(int id, int startx, int starty, int endx, 
     int diry = starty - endy;
     
     if (dirx % diry != 0) { //Makes sure direction is 45/135/225/315 degrees
-        throw movePieceException(GENERAL_MOVEMENT_ERROR);
+        throw movePieceException(INVALID_COORDS_ERROR);
     }
     
     if (dirx > 2 || dirx < -2 || dirx == 0) { //Makes sure that the length of the move is valid
-        throw movePieceException(GENERAL_MOVEMENT_ERROR);
+        throw movePieceException(LENGTH_NOT_VALID_ERROR);
     }
 
     //Populate vector available with all pieces on your team that can take an enemy piece
@@ -132,7 +132,7 @@ void draughts::model::board::makeMove(int id, int startx, int starty, int endx, 
                     }
                 }
             }
-            throw movePieceException(GENERAL_MOVEMENT_ERROR);
+            throw movePieceException(PIECE_OWNERSHIP_ERROR);
         }
     }
     throw movePieceException(GENERAL_MOVEMENT_ERROR);

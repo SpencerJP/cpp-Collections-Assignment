@@ -52,9 +52,10 @@ char draughts::model::model::get_token(int x ,int y)
     return draughts::model::board::get_instance()->get_token(x, y);
 }
 
-void draughts::model::model::make_move(int playernum,
-        int startx, int starty, int endx, int endy)
+void draughts::model::model::make_move(int playernum, int startx, int starty, int endx, int endy)
 {
+    draughts::model::board * board = draughts::model::board::get_instance(); // initializes board
+    board->makeMove(playernum, startx, starty, endx, endy);
 }
 
 std::map<int, std::string> draughts::model::model::get_player_list(void)

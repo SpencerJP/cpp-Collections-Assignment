@@ -10,6 +10,9 @@
 #define GENERAL_MOVEMENT_ERROR 0
 #define PIECE_OBSTRUCTION_ERROR 1
 #define OUT_OF_BOUNDS_ERROR 2
+#define INVALID_COORDS_ERROR 3
+#define LENGTH_NOT_VALID_ERROR 4
+#define PIECE_OWNERSHIP_ERROR 5
 
 namespace draughts {
     namespace model {
@@ -73,6 +76,15 @@ namespace draughts {
                                 }
                                 else if (this->errorType == PIECE_OBSTRUCTION_ERROR) {
                                     return "There is a piece obstructing the move!";
+                                }
+                                else if (this->errorType == PIECE_OWNERSHIP_ERROR) {
+                                    return "You do not own this piece!";
+                                }
+                                else if (this->errorType == INVALID_COORDS_ERROR) {
+                                    return "Your coordinates are invalid!";
+                                }
+                                else if (this->errorType == LENGTH_NOT_VALID_ERROR) {
+                                    return "Your coordinates are invalid! (Length not valid)";
                                 }
                                 else {
                                     return "An error occurred while moving the piece!";
