@@ -2,6 +2,7 @@
 #include <memory>
 #include "checker.h"
 #include "king.h"
+#include "players_statics.h"
 
 #pragma once
 
@@ -30,6 +31,8 @@ namespace draughts {
             static board * get_instance(void);
             static void delete_instance(void);
             void makeMove(int id, int startx, int starty, int endx, int endy);
+            
+            void executeMove(int id, int startx, int starty, int endx, int endy);
             
             void start_game(void);
             
