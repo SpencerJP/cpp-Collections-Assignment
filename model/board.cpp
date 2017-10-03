@@ -144,23 +144,6 @@ void draughts::model::board::makeMove(int id, int startx, int starty, int endx, 
     return;
 }
 
-void draughts::model::board::postMove(int team, int endx, int endy) {
-    int row = team * 7; //If team is 1, row for king is 7, if team is 0, row for king is 0
-    for (auto it = checkers.begin(); it != checkers.end(); it++) {
-        if ((*it).isAtLocation(endx, endy)) {
-            if ((*it).y == row) {
-                draughts::model::king temp;
-                temp.setLocation(endx, endy);
-                temp << team;
-                checkers.push_back(temp);
-                checkers.erase(it);
-            }
-            break;
-        }
-    }
-    return;
-}
-
 void draughts::model::board::populateRow(bool even, int row, char team) {
 
     for (int i = ((even) ? 0 : 1); i <= BOARD_SIZE; i = i+2) {
@@ -178,6 +161,7 @@ void draughts::model::board::clearBoard(void) {
 }
 
 void draughts::model::board::executeMove(int id, int startx, int starty, int endx, int endy) {
+    
     draughts::model::checker * checkerToMove;
     for(auto checker : this->checkers) {
         if(checker.isAtLocation(startx, starty)) {
@@ -185,8 +169,19 @@ void draughts::model::board::executeMove(int id, int startx, int starty, int end
             break;
         }
     }
+    int row = (checkerToMove->team == 'x') ? 8 : 1
     if (std::abs(endx) == 1) { // TODO REMOVE C FUNCTION, REPLACE WITH STDLIB.
-        checkerToMove->setLocation(endx, endy);
+        if (endx != row) {
+            checkerToMove->setLocation(endx, endy);
+        } else {
+            draughts::model::king temp;
+            temp.setLocation(endx, endy);
+            temp << team;
+            checkers.push_back(temp);
+            this->checkers.erase(std::remove( this->checkers.begin(),  this->checkers.end(), *checkerToMove), this->checkers.end());
+            
+        }
+        
     }
     else {
         draughts::model::checker * checkerToDestroy;
@@ -198,6 +193,17 @@ void draughts::model::board::executeMove(int id, int startx, int starty, int end
         }
         this->checkers.erase(std::remove( this->checkers.begin(),  this->checkers.end(), *checkerToDestroy), this->checkers.end());
         draughts::model::model::get_instance()->currentPlayers.first.playernum == id ? draughts::model::model::get_instance()->currentPlayers.first++ : draughts::model::model::get_instance()->currentPlayers.second++
+        
+        if (endx != row) {
+            checkerToMove->setLocation(endx, endy);
+        } else {
+            draughts::model::king temp;
+            temp.setLocation(endx, endy);
+            temp << team;
+            checkers.push_back(temp);
+            this->checkers.erase(std::remove( this->checkers.begin(),  this->checkers.end(), *checkerToMove), this->checkers.end());
+            
+        }
     }
     
 } 
