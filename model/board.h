@@ -13,6 +13,7 @@
 #define INVALID_COORDS_ERROR 3
 #define LENGTH_NOT_VALID_ERROR 4
 #define PIECE_OWNERSHIP_ERROR 5
+#define OWN_PIECE_OBSTRUCTION_ERROR 6
 
 namespace draughts {
     namespace model {
@@ -39,11 +40,11 @@ namespace draughts {
                 static board * get_instance(void);
                 static void delete_instance(void);
                 
-                void makeMove(int id, int startx, int starty, int endx, int endy);
+                void makeMove(int id, int starty, int startx, int endy, int endx);
                 
                 void executeMove(int id, int startx, int starty, int endx, int endy);
                 
-                void start_game(void);
+                void start_game(std::pair<draughts::model::player, draughts::model::player> players);
                 
                 int get_width() {
                     return BOARD_SIZE;
@@ -55,7 +56,7 @@ namespace draughts {
                 
                 void clearBoard(void);
                 
-                void populateRow(bool even, int row, char team);
+                void populateRow(bool even, int row, char team, int playerId);
                 
                 char get_token(int x,int y);
                 
@@ -85,6 +86,9 @@ namespace draughts {
                                 }
                                 else if (this->errorType == LENGTH_NOT_VALID_ERROR) {
                                     return "Your coordinates are invalid! (Length not valid)";
+                                }
+                                else if (this->errorType == OWN_PIECE_OBSTRUCTION_ERROR) {
+                                    return "You can't jump over your own piece!";
                                 }
                                 else {
                                     return "An error occurred while moving the piece!";

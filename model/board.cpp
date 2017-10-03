@@ -21,19 +21,20 @@ draughts::model::board::board(void) {
    
 }
 
-void draughts::model::board::start_game(void) {
+void draughts::model::board::start_game(std::pair<draughts::model::player, draughts::model::player> players) {
     this->clearBoard();
+    int id1 = players.first.playernum;
+    int id2 = players.second.playernum;
+    this->populateRow(true, 1, 'o', id2);
+    this->populateRow(false, 2, 'o', id2);
+    this->populateRow(true, 3, 'o', id2);
     
-    this->populateRow(true, 1, 'o');
-    this->populateRow(false, 2, 'o');
-    this->populateRow(true, 3, 'o');
-    
-    this->populateRow(true, 8, 'x');
-    this->populateRow(false, 7, 'x');
-    this->populateRow(true, 6, 'x');
+    this->populateRow(true, 8, 'x', id1);
+    this->populateRow(false, 7, 'x', id1);
+    this->populateRow(true, 6, 'x', id1);
 }
 
-void draughts::model::board::makeMove(int id, int startx, int starty, int endx, int endy) {
+void draughts::model::board::makeMove(int id, int starty, int startx, int endy, int endx) {
     
     int dirx = startx - endx;
     int diry = starty - endy;
@@ -48,11 +49,11 @@ void draughts::model::board::makeMove(int id, int startx, int starty, int endx, 
 
     //Populate vector available with all pieces on your team that can take an enemy piece
     std::vector<draughts::model::checker> available;
-    for (draughts::model::checker c : checkers) {
+    for (auto c : checkers) {
         if (c.playerId == id) {
             for (std::pair<int,int> dir : c.possibleDirections()) {
                 std::pair<int, int> adj_loc = std::make_pair(startx + dir.first, starty + dir.second); //Location of adjacent spot  
-                for (draughts::model::checker d : checkers) {
+                for (auto d : checkers) {
                     if (d.isAtLocation(adj_loc)) {
                         if (d.playerId == id)
                             continue;
@@ -74,18 +75,19 @@ void draughts::model::board::makeMove(int id, int startx, int starty, int endx, 
     }
     
     std::vector<draughts::model::checker> searchSpace = available;
-    if (available.empty())
-        searchSpace = checkers;
+    if (available.empty()) {
+        searchSpace = checkers; 
+    }
         
-    for (draughts::model::checker selected : searchSpace) {
-        if (selected.isAtLocation(startx,starty) && selected.playerId == id) {  //Makes sure player moving piece owns piece
+    for (auto selected : searchSpace) {
+        if (selected.isAtLocation(startx,starty) && (selected.playerId == id)) {  //Makes sure player moving piece owns piece
             for (std::pair<int,int> dir : selected.possibleDirections()) {  //Gets direction piece can move
                 if (dirx / dir.first > 0 && diry / dir.second > 0) {    //Makes sure that the direction is correct
                     std::pair<int, int> adj_loc = std::make_pair(startx + dir.first, starty + dir.second); //Location of adjacent spot
                     for (draughts::model::checker d : checkers) { 
                         if (d.isAtLocation(adj_loc)) {  //Checks if there is a piece at the adjacent spot
                             if (d.playerId == id) { //Can't jump over your own piece?
-                                throw movePieceException(PIECE_OBSTRUCTION_ERROR);
+                                throw movePieceException(OWN_PIECE_OBSTRUCTION_ERROR);
                             }
                             
                             std::pair<int, int> att_loc = std::make_pair(adj_loc.first * 2, adj_loc.second * 2);  //Location of attack location
@@ -127,7 +129,7 @@ void draughts::model::board::makeMove(int id, int startx, int starty, int endx, 
                     }
                     if (endx == adj_loc.first && endy == adj_loc.second) {  //Checks that the free space is the desired location
                         executeMove(id, startx, starty, endx, endy);
-                        //SUCCESs
+                        //SUCCESS
                         return;
                     }
                 }
@@ -135,14 +137,16 @@ void draughts::model::board::makeMove(int id, int startx, int starty, int endx, 
             throw movePieceException(PIECE_OWNERSHIP_ERROR);
         }
     }
+    
     throw movePieceException(GENERAL_MOVEMENT_ERROR);
 }
 
-void draughts::model::board::populateRow(bool even, int row, char team) {
+void draughts::model::board::populateRow(bool even, int row, char team, int playerId) {
 
     for (int i = ((even) ? 0 : 1); i <= BOARD_SIZE; i = i+2) {
         draughts::model::checker checker;
         checker << team; // overloading operators example
+        checker.playerId = playerId;
         checker.setLocation(row, i);
         checkers.push_back(checker);
     }
@@ -173,6 +177,7 @@ void draughts::model::board::executeMove(int id, int startx, int starty, int end
             draughts::model::king temp;
             temp.setLocation(endx, endy);
             temp << checkerToMove->team;
+            temp.playerId = checkerToMove->playerId;
             checkers.push_back(temp);
             removeCheckerAtLocation(startx, starty);
         }
@@ -193,6 +198,7 @@ void draughts::model::board::executeMove(int id, int startx, int starty, int end
             draughts::model::king temp;
             temp.setLocation(endx, endy);
             temp << checkerToMove->team;
+            temp.playerId = checkerToMove->playerId;
             checkers.push_back(temp);
             removeCheckerAtLocation(startx, starty);
             

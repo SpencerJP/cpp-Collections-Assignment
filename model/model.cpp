@@ -31,9 +31,17 @@ void draughts::model::model::start_game(int plr1, int plr2)
     player1.playernum = plr1;
     player2.playernum = plr2;
     this->turnNumber = 0;
-    draughts::model::players::get_instance()->currentPlayers = std::make_pair(player1, player2);
+    
+    // coin flipping with <random>
+    std::random_device random_device;
+    std::default_random_engine coin_flip(random_device());
+    std::uniform_int_distribution<int> uniform_dist(1, 2);
+    int coin_flip_result = uniform_dist(coin_flip);
+    
+    std::pair<player, player> players = (coin_flip_result == 1) ?  std::make_pair(player1, player2) : std::make_pair(player2, player1); // randomly assign someone to go first
+    draughts::model::players::get_instance()->currentPlayers = players;
     draughts::model::board * board = draughts::model::board::get_instance(); // initializes board
-    board->start_game();
+    board->start_game(players);
 }
 
 int draughts::model::model::get_winner()
