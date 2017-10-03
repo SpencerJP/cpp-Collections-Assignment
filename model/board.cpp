@@ -177,7 +177,7 @@ void draughts::model::board::executeMove(int id, int startx, int starty, int end
     }
     
     int row = ((checkerToMove->team == 'x') ? 1 : 8);
-    if (std::abs(endx) == 1) { // TODO REMOVE C FUNCTION, REPLACE WITH STDLIB.
+    if (std::abs(startx - endx) == 1) { // TODO REMOVE C FUNCTION, REPLACE WITH STDLIB.
     
         if (endx != row) {
             checkerToMove->setLocation(endx, endy);
