@@ -34,8 +34,9 @@ void draughts::model::board::start_game(std::pair<draughts::model::player, draug
     this->populateRow(true, 6, 'x', id1);
 }
 
-void draughts::model::board::makeMove(int id, int starty, int startx, int endy, int endx) {
+void draughts::model::board::makeMove(int id, int startx, int starty, int endx, int endy) {
     
+    std::cout << starty << startx << endy << endx << std::endl;
     int dirx = startx - endx;
     int diry = starty - endy;
     
@@ -84,7 +85,7 @@ void draughts::model::board::makeMove(int id, int starty, int startx, int endy, 
             for (std::pair<int,int> dir : selected.possibleDirections()) {  //Gets direction piece can move
                 if (dirx / dir.first > 0 && diry / dir.second > 0) {    //Makes sure that the direction is correct
                     std::pair<int, int> adj_loc = std::make_pair(startx + dir.first, starty + dir.second); //Location of adjacent spot
-                    for (draughts::model::checker d : checkers) { 
+                    for (auto d : checkers) { 
                         if (d.isAtLocation(adj_loc)) {  //Checks if there is a piece at the adjacent spot
                             if (d.playerId == id) { //Can't jump over your own piece?
                                 throw movePieceException(OWN_PIECE_OBSTRUCTION_ERROR);
