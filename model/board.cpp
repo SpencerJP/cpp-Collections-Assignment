@@ -39,13 +39,11 @@ void draughts::model::board::makeMove(int id, int startx, int starty, int endx, 
     int diry = starty - endy;
     
     if (dirx % diry != 0) { //Makes sure direction is 45/135/225/315 degrees
-        //FAILURE
-        return;
+        throw movePieceException(GENERAL_MOVEMENT_ERROR);
     }
     
     if (dirx > 2 || dirx < -2 || dirx == 0) { //Makes sure that the length of the move is valid
-        //FAILURE
-        return;
+        throw movePieceException(GENERAL_MOVEMENT_ERROR);
     }
 
     //Populate vector available with all pieces on your team that can take an enemy piece
@@ -87,15 +85,13 @@ void draughts::model::board::makeMove(int id, int startx, int starty, int endx, 
                     for (draughts::model::checker d : checkers) { 
                         if (d.isAtLocation(adj_loc)) {  //Checks if there is a piece at the adjacent spot
                             if (d.playerId == id) { //Can't jump over your own piece?
-                                //FAILURE
-                                return;
+                                throw movePieceException(PIECE_OBSTRUCTION_ERROR);
                             }
                             
                             std::pair<int, int> att_loc = std::make_pair(adj_loc.first * 2, adj_loc.second * 2);  //Location of attack location
                             for (draughts::model::checker e : checkers) {
                                 if (e.isAtLocation(att_loc)) {    //Checks if there is a piece at the attack location
-                                    //FAILURE
-                                    return;
+                                    throw movePieceException(PIECE_OBSTRUCTION_ERROR);
                                 }
                             }
                             
@@ -136,12 +132,10 @@ void draughts::model::board::makeMove(int id, int startx, int starty, int endx, 
                     }
                 }
             }
-            //FAILURE: NOT FOUND
-            return;
+            throw movePieceException(GENERAL_MOVEMENT_ERROR);
         }
     }
-    //FAILURE: NOT FOUND
-    return;
+    throw movePieceException(GENERAL_MOVEMENT_ERROR);
 }
 
 void draughts::model::board::populateRow(bool even, int row, char team) {
