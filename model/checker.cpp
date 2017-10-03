@@ -11,10 +11,17 @@ char draughts::model::checker::getPieceChar(void) {
 
 std::vector<std::pair<int,int>> draughts::model::checker::possibleDirections(void) {
     std::vector<std::pair<int,int>> moves;
-    std::pair<int,int> topLeft = std::make_pair<int,int>(-1,1);
-    std::pair<int,int> topRight = std::make_pair<int,int>(1,1);
-    moves.push_back(topLeft);
-    moves.push_back(topRight);
+    std::pair<int,int> left;
+    std::pair<int,int> right;
+    if (team == 'x') {
+        left = std::make_pair<int,int>(-1,-1);
+        right = std::make_pair<int,int>(1,-1);
+    } else {
+        left = std::make_pair<int,int>(-1,1);
+        right = std::make_pair<int,int>(1,1);
+    }
+    moves.push_back(left);
+    moves.push_back(right);
     return moves;
 }
 void draughts::model::checker::setLocation(int x, int y) {

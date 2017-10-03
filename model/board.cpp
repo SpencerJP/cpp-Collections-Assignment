@@ -36,8 +36,8 @@ void draughts::model::board::start_game(std::pair<draughts::model::player, draug
 
 void draughts::model::board::makeMove(int id, int startx, int starty, int endx, int endy) {
     
-    int dirx = startx - endx;
-    int diry = starty - endy;
+    int dirx = endx - startx;
+    int diry = endy - starty;
     std::cout << "start: " << startx << ", " << starty << " | end: " << endx << ", " << endy << std::endl;
     std::cout << "direction: " << dirx << ", " << diry << std::endl;
     if (dirx % diry != 0) { //Makes sure direction is 45/135/225/315 degrees
@@ -49,7 +49,7 @@ void draughts::model::board::makeMove(int id, int startx, int starty, int endx, 
     }
     
     if (endx < 0 || endx > 8 || endy < 0 || endy > 8) {
-        //Out of bounds
+        throw movePieceException(INVALID_COORDS_ERROR);
     }
 
     //Populate vector available with all pieces on your team that can take an enemy piece
@@ -89,6 +89,7 @@ void draughts::model::board::makeMove(int id, int startx, int starty, int endx, 
         std::cout << "Selected: " << selected.x << ", " << selected.y << " | ID: " << selected.playerId << " | PlayerId: " << id << std::endl;
         if (selected.isAtLocation(startx,starty) && (selected.playerId == id)) {  //Makes sure player moving piece owns piece
             for (std::pair<int,int> dir : selected.possibleDirections()) {  //Gets direction piece can move
+                std::cout << "DIRS: " << dir.first << ", " << dir.second << std::endl;
                 if (dirx / dir.first > 0 && diry / dir.second > 0) {    //Makes sure that the direction is correct
                     std::pair<int, int> adj_loc = std::make_pair(startx + dir.first, starty + dir.second); //Location of adjacent spot
                     std::cout << "Checking: " << adj_loc.first << ", " << adj_loc.second << std::endl;
