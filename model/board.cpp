@@ -86,13 +86,13 @@ void draughts::model::board::makeMove(int id, int startx, int starty, int endx, 
     }
         
     for (auto selected : searchSpace) {
-        std::cout << "Selected: " << selected.x << ", " << selected.y << " | ID: " << selected.playerId << " | PlayerId: " << id << std::endl;
+        // std::cout << "Selected: " << selected.x << ", " << selected.y << " | ID: " << selected.playerId << " | PlayerId: " << id << std::endl;
         if (selected.isAtLocation(startx,starty) && (selected.playerId == id)) {  //Makes sure player moving piece owns piece
             for (std::pair<int,int> dir : selected.possibleDirections()) {  //Gets direction piece can move
-                std::cout << "DIRS: " << dir.first << ", " << dir.second << std::endl;
+                // std::cout << "DIRS: " << dir.first << ", " << dir.second << std::endl;
                 if (dirx / dir.first > 0 && diry / dir.second > 0) {    //Makes sure that the direction is correct
                     std::pair<int, int> adj_loc = std::make_pair(startx + dir.first, starty + dir.second); //Location of adjacent spot
-                    std::cout << "Checking: " << adj_loc.first << ", " << adj_loc.second << std::endl;
+                    // std::cout << "Checking: " << adj_loc.first << ", " << adj_loc.second << std::endl;
                     for (auto d : checkers) { 
                         if (d.isAtLocation(adj_loc)) {  //Checks if there is a piece at the adjacent spot
                             if (d.playerId == id) { //Can't jump over your own piece?
@@ -167,7 +167,7 @@ void draughts::model::board::clearBoard(void) {
 }
 
 void draughts::model::board::executeMove(int id, int startx, int starty, int endx, int endy) {
-    
+    std::cout << "test" << std::endl;
     draughts::model::checker * checkerToMove;
     for(auto checker : this->checkers) {
         if(checker.isAtLocation(startx, starty)) {
