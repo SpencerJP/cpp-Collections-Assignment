@@ -1,4 +1,3 @@
-
 #include <memory>
 #include "checker.h"
 #include "king.h"
@@ -33,14 +32,13 @@ namespace draughts {
             
             
             public:
-        
-            char get_token(int x ,int y);
+            
                 static board * get_instance(void);
                 static void delete_instance(void);
                 
                 void makeMove(int id, int startx, int starty, int endx, int endy);
                 
-                void executeMove(int id, int startx, int starty, int endx, int endy)
+                void executeMove(int id, int startx, int starty, int endx, int endy);
                 
                 void start_game(void);
                 
@@ -56,15 +54,18 @@ namespace draughts {
                 
                 void populateRow(bool even, int row, char team);
                 
-                char get_token(int x ,int y);
+                char get_token(int x,int y);
+                
+                void removeCheckerAtLocation(int x, int y);
                 
                 class movePieceException: public std::exception
                 {
-                        movePieceException(int errorType) {
-                            this->errorType = errorType;
-                        }
-                        int errorType = GENERAL_MOVEMENT_ERROR;
                         public:
+                            int errorType = 0;
+                            movePieceException(int errorType) {
+                                this->errorType = errorType;
+                            }
+                        
                             virtual const char* what() const throw()
                             {
                                 if (this->errorType == OUT_OF_BOUNDS_ERROR) {

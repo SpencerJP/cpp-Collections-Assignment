@@ -163,39 +163,38 @@ void draughts::model::board::executeMove(int id, int startx, int starty, int end
             break;
         }
     }
-    int row = (checkerToMove->team == 'x') ? 8 : 1
+    
+    int row = ((checkerToMove->team == 'x') ? 1 : 8);
     if (std::abs(endx) == 1) { // TODO REMOVE C FUNCTION, REPLACE WITH STDLIB.
+    
         if (endx != row) {
             checkerToMove->setLocation(endx, endy);
         } else {
             draughts::model::king temp;
             temp.setLocation(endx, endy);
-            temp << team;
+            temp << checkerToMove->team;
             checkers.push_back(temp);
-            this->checkers.erase(std::remove( this->checkers.begin(),  this->checkers.end(), *checkerToMove), this->checkers.end());
-            
+            removeCheckerAtLocation(startx, starty);
         }
         
     }
     else {
-        draughts::model::checker * checkerToDestroy;
         for(auto checker : this->checkers) {
-            if(checker.isAtLocation(startx + endx, starty)) {
-                checkerToDestroy = &checker;
+            if(checker.isAtLocation( startx + (1 * (startx > endx ? -1 : 1)), starty + (1 * (starty > endy ? -1 : 1))) ) {
+                removeCheckerAtLocation( startx + (1 * (startx > endx ? -1 : 1)), starty + (1 * (starty > endy ? -1 : 1)));
                 break;
             }
         }
-        this->checkers.erase(std::remove( this->checkers.begin(),  this->checkers.end(), *checkerToDestroy), this->checkers.end());
-        draughts::model::model::get_instance()->currentPlayers.first.playernum == id ? draughts::model::model::get_instance()->currentPlayers.first++ : draughts::model::model::get_instance()->currentPlayers.second++
+        /* TODO add score here */
         
         if (endx != row) {
             checkerToMove->setLocation(endx, endy);
         } else {
             draughts::model::king temp;
             temp.setLocation(endx, endy);
-            temp << team;
+            temp << checkerToMove->team;
             checkers.push_back(temp);
-            this->checkers.erase(std::remove( this->checkers.begin(),  this->checkers.end(), *checkerToMove), this->checkers.end());
+            removeCheckerAtLocation(startx, starty);
             
         }
     }
@@ -203,7 +202,6 @@ void draughts::model::board::executeMove(int id, int startx, int starty, int end
 } 
 
 char draughts::model::board::get_token(int x, int y) {
-    // TODO
     for(auto token : checkers) {
         if (token.isAtLocation(x, y)) {
             
@@ -211,4 +209,15 @@ char draughts::model::board::get_token(int x, int y) {
         }
     }
     return ' ';
+}
+
+void draughts::model::board::removeCheckerAtLocation(int x, int y) {
+    int index = 0;
+    for(auto piece : checkers) {
+        if(piece.isAtLocation(x, y)) {
+            break;
+        }
+        index++;
+    }
+    checkers.erase(checkers.begin() + index);
 }
