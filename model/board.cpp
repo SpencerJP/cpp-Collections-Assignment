@@ -203,7 +203,6 @@ void draughts::model::board::executeMove(int id, int startx, int starty, int end
                 break;
             }
         }
-        /* TODO add score here */
         
         if (endx != row) {
             for(auto && piece : this->checkers) {
