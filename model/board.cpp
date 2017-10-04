@@ -178,11 +178,9 @@ void draughts::model::board::executeMove(int id, int startx, int starty, int end
             for(auto && piece : this->checkers) {
                 if(piece->isAtLocation(startx, starty)) {
                     piece->setLocation(endx, endy);
-                    this->checkers.push_back(std::move(piece));
                     break;
                 }
             }
-            removeCheckerAtLocation(startx, starty);
         } else {
             draughts::model::checker * checkerToMove;
             for(auto && piece : this->checkers) {
@@ -211,11 +209,9 @@ void draughts::model::board::executeMove(int id, int startx, int starty, int end
             for(auto && piece : this->checkers) {
                 if(piece->isAtLocation(startx, starty)) {
                     piece->setLocation(endx, endy);
-                    this->checkers.push_back(std::move(piece));
                     break;
                 }
             }
-            removeCheckerAtLocation(startx, starty);
         } else {
             draughts::model::checker * checkerToMove;
             for(auto && piece : this->checkers) {
@@ -251,6 +247,7 @@ void draughts::model::board::removeCheckerAtLocation(int x, int y) {
         }
         index++;
     }
+    std::cout << "meme2" << std::endl;
     checkers.erase(checkers.begin() + index);
 }
 
@@ -264,5 +261,5 @@ bool draughts::model::board::bothTeamsStillHavePieces() {
             o_stillHasPieces = true; 
         }
     }
-    return (x_stillHasPieces && o_stillHasPieces);
+    return !(x_stillHasPieces && o_stillHasPieces);
 }
