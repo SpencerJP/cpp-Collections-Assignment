@@ -29,17 +29,15 @@ void draughts::model::board::start_game(std::pair<draughts::model::player, draug
     this->populateRow(false, 2, 'o', id2);
     this->populateRow(true, 3, 'o', id2);
     
-    this->populateRow(true, 8, 'x', id1);
-    this->populateRow(false, 7, 'x', id1);
-    this->populateRow(true, 6, 'x', id1);
+    this->populateRow(false, 8, 'x', id1);
+    this->populateRow(true, 7, 'x', id1);
+    this->populateRow(false, 6, 'x', id1);
 }
 
 void draughts::model::board::makeMove(int id, int startx, int starty, int endx, int endy) {
     
     int dirx = endx - startx;
     int diry = endy - starty;
-    std::cout << "start: " << startx << ", " << starty << " | end: " << endx << ", " << endy << std::endl;
-    std::cout << "direction: " << dirx << ", " << diry << std::endl;
     if (dirx % diry != 0) { //Makes sure direction is 45/135/225/315 degrees
         throw movePieceException(INVALID_COORDS_ERROR);
     }
@@ -82,7 +80,6 @@ void draughts::model::board::makeMove(int id, int startx, int starty, int endx, 
     std::vector<draughts::model::checker> searchSpace = available;
     if (available.empty()) {
         searchSpace = checkers;
-        std::cout << "No takeable pieces" << std::endl;
     }
         
     for (auto selected : searchSpace) {
@@ -167,21 +164,27 @@ void draughts::model::board::clearBoard(void) {
 }
 
 void draughts::model::board::executeMove(int id, int startx, int starty, int endx, int endy) {
-    std::cout << "test" << std::endl;
-    draughts::model::checker * checkerToMove;
-    for(auto checker : this->checkers) {
-        if(checker.isAtLocation(startx, starty)) {
-            checkerToMove = &checker;
-            break;
-        }
-    }
     
-    int row = ((checkerToMove->team == 'x') ? 1 : 8);
+    
+    int row = ((get_token(startx, starty) == 'x') ? 1 : 8);
     if (std::abs(startx - endx) == 1) { // TODO REMOVE C FUNCTION, REPLACE WITH STDLIB.
-    
         if (endx != row) {
-            checkerToMove->setLocation(endx, endy);
+            for(auto piece : this->checkers) {
+                if(piece.isAtLocation(startx, starty)) {
+                    piece.setLocation(endx, endy);
+                    this->checkers.push_back(piece);
+                    break;
+                }
+            }
+            removeCheckerAtLocation(startx, starty);
         } else {
+            draughts::model::checker * checkerToMove;
+            for(auto piece : this->checkers) {
+                if(piece.isAtLocation(startx, starty)) {
+                    checkerToMove = &piece;
+                    break;
+                }
+            }
             draughts::model::king temp;
             temp.setLocation(endx, endy);
             temp << checkerToMove->team;
@@ -201,15 +204,28 @@ void draughts::model::board::executeMove(int id, int startx, int starty, int end
         /* TODO add score here */
         
         if (endx != row) {
-            checkerToMove->setLocation(endx, endy);
+            for(auto piece : this->checkers) {
+                if(piece.isAtLocation(startx, starty)) {
+                    piece.setLocation(endx, endy);
+                    this->checkers.push_back(piece);
+                    break;
+                }
+            }
+            removeCheckerAtLocation(startx, starty);
         } else {
+            draughts::model::checker * checkerToMove;
+            for(auto piece : this->checkers) {
+                if(piece.isAtLocation(startx, starty)) {
+                    checkerToMove = &piece;
+                    break;
+                }
+            }
             draughts::model::king temp;
             temp.setLocation(endx, endy);
             temp << checkerToMove->team;
             temp.playerId = checkerToMove->playerId;
             checkers.push_back(temp);
             removeCheckerAtLocation(startx, starty);
-            
         }
     }
     

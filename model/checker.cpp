@@ -24,9 +24,9 @@ std::vector<std::pair<int,int>> draughts::model::checker::possibleDirections(voi
     moves.push_back(right);
     return moves;
 }
-void draughts::model::checker::setLocation(int x, int y) {
-    this->x = x;
-    this->y = y;
+void draughts::model::checker::setLocation(int newx, int newy) {
+    this->x = newx;
+    this->y = newy;
 }
 
 bool draughts::model::checker::isAtLocation(int x, int y) {

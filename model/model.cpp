@@ -64,6 +64,7 @@ void draughts::model::model::make_move(int playernum, int startx, int starty, in
 {
     draughts::model::board * board = draughts::model::board::get_instance(); // initializes board
     board->makeMove(playernum, startx, starty, endx, endy);
+    this->turnNumber++;
 }
 
 std::map<int, std::string> draughts::model::model::get_player_list(void)
