@@ -36,7 +36,7 @@ void draughts::ncview::game_window::activate(void)
             while(same_turn) {
                 std::pair<std::pair<int,int>,std::pair<int,int>> move_coords;
                 move_coords = get_move_input();
-                int retvalue = themodel->make_move(playernum, move_coords.first.first, move_coords.first.second, move_coords.second.first, move_coords.second.second);
+                retvalue = themodel->make_move(playernum, move_coords.first.first, move_coords.first.second, move_coords.second.first, move_coords.second.second);
                 if (retvalue != 2) { // allows you to chain moves
                     break;
                 }

@@ -68,12 +68,15 @@ int draughts::model::board::makeMove(int id, int startx, int starty, int endx, i
                                 break;
                             }
                         }
-                        if (canTake)
-                            std::unique_ptr<draughts::model::checker> temp = std::make_unique(new checker);
-                            temp->team = c->team;
-                            temp->playerId = c->team;
-                            temp->setLocation(c->x, c->y);
-                            available.push_back(temp);
+                        if (canTake) {
+                            draughts::model::checker * checkerThatCanAttack = c.get();
+                            std::unique_ptr<draughts::model::checker> tempPiece = std::make_unique<draughts::model::checker>(*checkerThatCanAttack);
+                            //temp->team = c->team;
+                            //temp->playerId = c->team;
+                            //temp->setLocation(c->x, c->y);
+                            available.push_back(tempPiece);
+                        }
+                            
                         break;
                     }
                 }
@@ -86,10 +89,10 @@ int draughts::model::board::makeMove(int id, int startx, int starty, int endx, i
         searchSpace = &checkers;
     }
         
-    for (auto && selected : &searchSpace) {
+    for (auto && selected : (*searchSpace)) {
         // std::cout << "Selected: " << selected.x << ", " << selected.y << " | ID: " << selected.playerId << " | PlayerId: " << id << std::endl;
         if (selected->isAtLocation(startx,starty) && (selected->playerId == id)) {  //Makes sure player moving piece owns piece
-            for (std::pair<int,int> dir : selected.possibleDirections()) {  //Gets direction piece can move
+            for (std::pair<int,int> dir : selected->possibleDirections()) {  //Gets direction piece can move
                 // std::cout << "DIRS: " << dir.first << ", " << dir.second << std::endl;
                 if (dirx / dir.first > 0 && diry / dir.second > 0) {    //Makes sure that the direction is correct
                     std::pair<int, int> adj_loc = std::make_pair(startx + dir.first, starty + dir.second); //Location of adjacent spot
@@ -109,7 +112,7 @@ int draughts::model::board::makeMove(int id, int startx, int starty, int endx, i
                             
                             if (endx == att_loc.first && endy == att_loc.second) {  //Checks that the free space is the desired location
                                 //now check whether player has to chain moves
-                                for (std::pair<int,int> dir : selected.possibleDirections()) {
+                                for (std::pair<int,int> dir : selected->possibleDirections()) {
                                     std::pair<int, int> adj_loc2 = std::make_pair(startx + dir.first, starty + dir.second); //Location of adjacent spot  
                                     for (auto && d : checkers) {
                                         if (d->isAtLocation(adj_loc2)) {
@@ -153,8 +156,8 @@ int draughts::model::board::makeMove(int id, int startx, int starty, int endx, i
 void draughts::model::board::populateRow(bool even, int row, char team, int playerId) {
 
     for (int i = ((even) ? 1 : 2); i <= BOARD_SIZE; i = i+2) {
-        std::unique_ptr<draughts::model::checker> checker = std::make_unique(checker);
-        checker << team; // overloading operators example
+        std::unique_ptr<draughts::model::checker> checker = std::make_unique<draughts::model::checker>();
+        checker->team = team;
         checker->playerId = playerId;
         checker->setLocation(i, row);
         checkers.push_back(checker);
@@ -189,10 +192,8 @@ void draughts::model::board::executeMove(int id, int startx, int starty, int end
                     break;
                 }
             }
-            std::unique_ptr<draughts::model::king> temp = std::make_unique(draughts::model::king);
+            std::unique_ptr<draughts::model::checker> temp = std::make_unique<draughts::model::king>(*checkerToMove);
             temp->setLocation(endx, endy);
-            temp.get() << checkerToMove->team;
-            temp->playerId = checkerToMove->playerId;
             checkers.push_back(temp);
             removeCheckerAtLocation(startx, starty);
         }
@@ -224,10 +225,8 @@ void draughts::model::board::executeMove(int id, int startx, int starty, int end
                     break;
                 }
             }
-            std::unique_ptr<draughts::model::king> temp = std::make_unique(draughts::model::king);
+            std::unique_ptr<draughts::model::checker> temp = std::make_unique<draughts::model::king>(*checkerToMove);
             temp->setLocation(endx, endy);
-            temp.get() <<  checkerToMove->team;
-            temp->playerId = checkerToMove->playerId;
             checkers.push_back(temp);
             removeCheckerAtLocation(startx, starty);
         }
