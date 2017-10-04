@@ -112,7 +112,7 @@ int draughts::model::board::makeMove(int id, int startx, int starty, int endx, i
                             if (endx == att_loc.first && endy == att_loc.second) {  //Checks that the free space is the desired location
                                 //now check whether player has to chain moves
                                 for (std::pair<int,int> dir2 : selected->possibleDirections()) {
-                                    std::pair<int, int> adj_loc2 = std::make_pair(startx + dir2.first, starty + dir2.second); //Location of adjacent spot  
+                                    std::pair<int, int> adj_loc2 = std::make_pair(endx + dir2.first, endy + dir2.second); //Location of adjacent spot  
                                     for (auto && d : checkers) {
                                         if (d->isAtLocation(adj_loc2)) {
                                             if (d->playerId == id)
