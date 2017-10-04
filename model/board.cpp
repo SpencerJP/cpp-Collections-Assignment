@@ -89,7 +89,7 @@ int draughts::model::board::makeMove(int id, int startx, int starty, int endx, i
     }
         
     for (auto && selected : (*searchSpace)) {
-        // std::cout << "Selected: " << selected.x << ", " << selected.y << " | ID: " << selected.playerId << " | PlayerId: " << id << std::endl;
+        // std::cout << "Selected: " << selected->x << ", " << selected->y << " | ID: " << selected->playerId << " | PlayerId: " << id << std::endl;
         if (selected->isAtLocation(startx,starty) && (selected->playerId == id)) {  //Makes sure player moving piece owns piece
             for (std::pair<int,int> dir : selected->possibleDirections()) {  //Gets direction piece can move
                 // std::cout << "DIRS: " << dir.first << ", " << dir.second << std::endl;
@@ -173,8 +173,8 @@ void draughts::model::board::executeMove(int id, int startx, int starty, int end
     
     
     int row = ((get_token(startx, starty) == 'x') ? 1 : 8);
-    if (std::abs(startx - endx) == 1) { // TODO REMOVE C FUNCTION, REPLACE WITH STDLIB.
-        if (endx != row) {
+    if (std::abs(starty - endy) == 1) { // TODO REMOVE C FUNCTION, REPLACE WITH STDLIB.
+        if (endy != row) {
             for(auto && piece : this->checkers) {
                 if(piece->isAtLocation(startx, starty)) {
                     piece->setLocation(endx, endy);
@@ -190,9 +190,19 @@ void draughts::model::board::executeMove(int id, int startx, int starty, int end
                 }
             }
             std::unique_ptr<draughts::model::checker> temp = std::make_unique<draughts::model::king>(*checkerToMove);
+            for (auto && piece : checkers) {
+                if (piece->isAtLocation(startx, starty)) {
+                    temp->team = piece->team;
+                    temp->playerId = piece->playerId;
+                    std::cout << temp->playerId << std::endl;
+                    std::cout << temp->team << std::endl;
+                    std::cout << id << std::endl;
+                    break;
+                }
+            }
             temp->setLocation(endx, endy);
-            checkers.push_back(std::move(temp));
             removeCheckerAtLocation(startx, starty);
+            checkers.push_back(std::move(temp));
         }
         
     }
