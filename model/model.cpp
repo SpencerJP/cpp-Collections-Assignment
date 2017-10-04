@@ -46,7 +46,7 @@ void draughts::model::model::start_game(int plr1, int plr2)
 
 int draughts::model::model::get_winner()
 {
-    return EOF;
+    return winner;
 }
 
 std::string draughts::model::model::get_player_name(int id)
@@ -60,11 +60,21 @@ char draughts::model::model::get_token(int x ,int y)
     return draughts::model::board::get_instance()->get_token(x, y);
 }
 
-void draughts::model::model::make_move(int playernum, int startx, int starty, int endx, int endy)
+int draughts::model::model::make_move(int playernum, int startx, int starty, int endx, int endy)
 {
     draughts::model::board * board = draughts::model::board::get_instance(); // initializes board
-    board->makeMove(playernum, startx, starty, endx, endy);
+    int returnvalue = board->makeMove(playernum, startx, starty, endx, endy);
+    if (returnvalue == 1) { //TOOK_PIECE
+        (currentPlayers.first == playernum) ? currentPlayers.first++ : currentPlayers.first++; // increase score
+    }
+    if (returnvalue == 3) { // NO_VALID_MOVES
+        winner = ((currentPlayers.second == playernum) ? currentPlayers.first.playernum : currentPlayers.first.playernum);
+    }
+    if (draughts::model::board::get_instance()->bothTeamsStillHavePieces()) { // if one team has no pieces it's over
+        winner = playernum;
+    }
     this->turnNumber++;
+    return returnvalue;
 }
 
 std::map<int, std::string> draughts::model::model::get_player_list(void)

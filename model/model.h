@@ -27,10 +27,11 @@ namespace draughts
 
             public:
             int turnNumber; // amount of turns elapsed
+            int winner = EOF;
             
             void start_game(int, int);
             char get_token(int,int);
-            void make_move(int, int, int, int, int);
+            int make_move(int, int, int, int, int);
 
             void add_player(const std::string& );
             int get_player_score(int);

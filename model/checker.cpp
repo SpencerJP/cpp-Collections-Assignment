@@ -44,27 +44,3 @@ bool draughts::model::checker::isAtLocation(std::pair<int, int> coords) {
     
     return true;
 }
-
-// std::vector<std::pair<int,int>> draughts::model::checker::possibleDirections(std::vector<checker> checkers) {
-//     std::vector<std::pair<int,int>> moves;
-//     std::pair<int,int> topLeft = std::make_pair<int,int>(-1,1);
-//     std::pair<int,int> topRight = std::make_pair<int,int>(1,1);
-//     // also if you can take a piece then that's valid too
-//     // TODO 
-    
-//     for(auto piece : checkers) {
-//         // check if topleft has a piece
-//         if(piece.isAtLocation(topLeft) && (piece.team != this->team)) {
-//             moves.push_back(std::make_pair<int, int>(-2,2));
-//         } else {
-//             moves.push_back(topLeft);
-//         }
-//         // check if topright has a piece
-//         if(piece.isAtLocation(topRight) && (piece.team != this->team)) {
-//             moves.push_back(std::make_pair<int, int>(2,2));
-//         } else {
-//             moves.push_back(topRight);
-//         }
-//     }
-//     return moves;
-// }

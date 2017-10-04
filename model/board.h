@@ -7,6 +7,14 @@
 
 #define BOARD_SIZE 8
 
+/* makeMove results */
+#define NORMAL_MOVE 0
+#define TOOK_PIECE 1
+#define CHAIN_MOVE 2
+#define NO_VALID_MOVES 3
+
+
+/* movePieceException errors */
 #define GENERAL_MOVEMENT_ERROR 0
 #define PIECE_OBSTRUCTION_ERROR 1
 #define OUT_OF_BOUNDS_ERROR 2
@@ -40,7 +48,7 @@ namespace draughts {
                 static board * get_instance(void);
                 static void delete_instance(void);
                 
-                void makeMove(int id, int startx, int starty, int endx, int endy);
+                int makeMove(int id, int startx, int starty, int endx, int endy);
                 
                 void executeMove(int id, int startx, int starty, int endx, int endy);
                 
@@ -61,6 +69,8 @@ namespace draughts {
                 char get_token(int x,int y);
                 
                 void removeCheckerAtLocation(int x, int y);
+                
+                bool bothTeamsStillHavePieces();
                 
                 class movePieceException: public std::exception
                 {

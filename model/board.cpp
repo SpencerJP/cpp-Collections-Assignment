@@ -34,7 +34,7 @@ void draughts::model::board::start_game(std::pair<draughts::model::player, draug
     this->populateRow(false, 6, 'x', id1);
 }
 
-void draughts::model::board::makeMove(int id, int startx, int starty, int endx, int endy) {
+int draughts::model::board::makeMove(int id, int startx, int starty, int endx, int endy) {
     
     int dirx = endx - startx;
     int diry = endy - starty;
@@ -122,28 +122,28 @@ void draughts::model::board::makeMove(int id, int startx, int starty, int endx, 
                                             if (canTake) {
                                                 //SUCCESS, player must chain moves
                                                 executeMove(id, startx, starty, endx, endy);
-                                                return;
+                                                return CHAIN_MOVE;
                                             }
                                         }
                                     }
                                 }
                                 //SUCCESS, player can't chain moves
                                 executeMove(id, startx, starty, endx, endy);
-                                return;
+                                return TOOK_PIECE;
                             }
                         }
                     }
                     if (endx == adj_loc.first && endy == adj_loc.second) {  //Checks that the free space is the desired location
                         executeMove(id, startx, starty, endx, endy);
                         //SUCCESS
-                        return;
+                        return NORMAL_MOVE;
                     }
                 }
             }
             throw movePieceException(PIECE_OWNERSHIP_ERROR);
         }
     }
-    throw movePieceException(GENERAL_MOVEMENT_ERROR);
+    return NO_VALID_MOVES;
 }
 
 void draughts::model::board::populateRow(bool even, int row, char team, int playerId) {
@@ -250,4 +250,17 @@ void draughts::model::board::removeCheckerAtLocation(int x, int y) {
         index++;
     }
     checkers.erase(checkers.begin() + index);
+}
+
+bool draughts::model::board::bothTeamsStillHavePieces() {
+    bool x_stillHasPieces = false; 
+    bool o_stillHasPieces = false;
+    for(auto piece : checkers) {
+        if (piece.team = 'x') {
+            bool x_stillHasPieces = true; 
+        } else {
+            bool o_stillHasPieces = true; 
+        }
+    }
+    return (x_stillHasPieces && o_stillHasPieces);
 }

@@ -13,6 +13,11 @@ void draughts::ncview::game_window::activate(void)
         int playernum = EOF;
         try
         {
+            if (themodel->get_winner() != EOF) {
+                std::cout << "GAME OVER: " << themodel->get_player_name(themodel->get_winner())
+                << " wins!" << std::endl;
+                return;
+            }
             display_board();
             playernum = themodel->get_current_player();
             std::cout << "it is " << themodel->get_player_name(playernum)
@@ -26,11 +31,19 @@ void draughts::ncview::game_window::activate(void)
         }
         try
         {
-            std::pair<std::pair<int,int>,std::pair<int,int>> move_coords;
-            move_coords = get_move_input();
-            themodel->make_move(playernum, move_coords.first.first, 
-                move_coords.first.second, move_coords.second.first,
-                move_coords.second.second);
+            bool same_turn = true;
+            int retvalue = 0;
+            while(same_turn) {
+                std::pair<std::pair<int,int>,std::pair<int,int>> move_coords;
+                move_coords = get_move_input();
+                int retvalue = themodel->make_move(playernum, move_coords.first.first, move_coords.first.second, move_coords.second.first, move_coords.second.second);
+                if (retvalue != 2) { // allows you to chain moves
+                    break;
+                }
+                else {
+                    std::cout << "You took a piece, so you may chain attacks with that same piece!" << std::endl;
+                }
+            }
         }
         catch(std::exception& ex)
         {
