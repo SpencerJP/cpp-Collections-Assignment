@@ -69,12 +69,11 @@ int draughts::model::board::makeMove(int id, int startx, int starty, int endx, i
                             }
                         }
                         if (canTake) {
-                            draughts::model::checker * checkerThatCanAttack = c.get();
-                            std::unique_ptr<draughts::model::checker> tempPiece = std::make_unique<draughts::model::checker>(*checkerThatCanAttack);
+                            std::unique_ptr<draughts::model::checker> tempPiece = std::make_unique<draughts::model::checker>(*(c.get()));
                             //temp->team = c->team;
                             //temp->playerId = c->team;
                             //temp->setLocation(c->x, c->y);
-                            available.push_back(tempPiece);
+                            available.push_back(std::move(tempPiece));
                         }
                             
                         break;
@@ -160,7 +159,7 @@ void draughts::model::board::populateRow(bool even, int row, char team, int play
         checker->team = team;
         checker->playerId = playerId;
         checker->setLocation(i, row);
-        checkers.push_back(checker);
+        checkers.push_back(std::move(checker));
     }
 
     return;
@@ -179,7 +178,7 @@ void draughts::model::board::executeMove(int id, int startx, int starty, int end
             for(auto && piece : this->checkers) {
                 if(piece->isAtLocation(startx, starty)) {
                     piece->setLocation(endx, endy);
-                    this->checkers.push_back(piece);
+                    this->checkers.push_back(std::move(piece));
                     break;
                 }
             }
@@ -194,7 +193,7 @@ void draughts::model::board::executeMove(int id, int startx, int starty, int end
             }
             std::unique_ptr<draughts::model::checker> temp = std::make_unique<draughts::model::king>(*checkerToMove);
             temp->setLocation(endx, endy);
-            checkers.push_back(temp);
+            checkers.push_back(std::move(temp));
             removeCheckerAtLocation(startx, starty);
         }
         
@@ -212,7 +211,7 @@ void draughts::model::board::executeMove(int id, int startx, int starty, int end
             for(auto && piece : this->checkers) {
                 if(piece->isAtLocation(startx, starty)) {
                     piece->setLocation(endx, endy);
-                    this->checkers.push_back(piece);
+                    this->checkers.push_back(std::move(piece));
                     break;
                 }
             }
@@ -227,7 +226,7 @@ void draughts::model::board::executeMove(int id, int startx, int starty, int end
             }
             std::unique_ptr<draughts::model::checker> temp = std::make_unique<draughts::model::king>(*checkerToMove);
             temp->setLocation(endx, endy);
-            checkers.push_back(temp);
+            checkers.push_back(std::move(temp));
             removeCheckerAtLocation(startx, starty);
         }
     }
