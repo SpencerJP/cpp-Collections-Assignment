@@ -40,7 +40,7 @@ namespace draughts {
             
             board(void);
             
-            std::vector<draughts::model::checker> checkers;
+            std::vector<std::unique_ptr<draughts::model::checker>> checkers;
             
             
             public:

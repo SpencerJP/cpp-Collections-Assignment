@@ -18,7 +18,7 @@ void draughts::model::board::delete_instance(void)
 }
 
 draughts::model::board::board(void) {
-   
+ 
 }
 
 void draughts::model::board::start_game(std::pair<draughts::model::player, draughts::model::player> players) {
@@ -51,25 +51,29 @@ int draughts::model::board::makeMove(int id, int startx, int starty, int endx, i
     }
 
     //Populate vector available with all pieces on your team that can take an enemy piece
-    std::vector<draughts::model::checker> available;
-    for (auto c : checkers) {
-        if (c.playerId == id) {
-            for (std::pair<int,int> dir : c.possibleDirections()) {
+    std::vector<std::unique_ptr<draughts::model::checker>> available;
+    for (auto && c : checkers) {
+        if (c->playerId == id) {
+            for (std::pair<int,int> dir : c->possibleDirections()) {
                 std::pair<int, int> adj_loc = std::make_pair(startx + dir.first, starty + dir.second); //Location of adjacent spot  
-                for (auto d : checkers) {
-                    if (d.isAtLocation(adj_loc)) {
-                        if (d.playerId == id)
+                for (auto && d : checkers) {
+                    if (d->isAtLocation(adj_loc)) {
+                        if (d->playerId == id)
                             continue;
                         std::pair<int, int> att_loc = std::make_pair(adj_loc.first * 2, adj_loc.second * 2);
                         bool canTake = true;
-                        for (draughts::model::checker e : checkers) {
-                            if (e.isAtLocation(att_loc)) {
+                        for (auto && e : checkers) {
+                            if (e->isAtLocation(att_loc)) {
                                 canTake = false;
                                 break;
                             }
                         }
                         if (canTake)
-                            available.push_back(c);
+                            std::unique_ptr<draughts::model::checker> temp = std::make_unique(new checker);
+                            temp->team = c->team;
+                            temp->playerId = c->team;
+                            temp->setLocation(c->x, c->y);
+                            available.push_back(temp);
                         break;
                     }
                 }
@@ -77,28 +81,28 @@ int draughts::model::board::makeMove(int id, int startx, int starty, int endx, i
         }
     }
     
-    std::vector<draughts::model::checker> searchSpace = available;
+    std::vector<std::unique_ptr<draughts::model::checker>> * searchSpace = &available;
     if (available.empty()) {
-        searchSpace = checkers;
+        searchSpace = &checkers;
     }
         
-    for (auto selected : searchSpace) {
+    for (auto && selected : &searchSpace) {
         // std::cout << "Selected: " << selected.x << ", " << selected.y << " | ID: " << selected.playerId << " | PlayerId: " << id << std::endl;
-        if (selected.isAtLocation(startx,starty) && (selected.playerId == id)) {  //Makes sure player moving piece owns piece
+        if (selected->isAtLocation(startx,starty) && (selected->playerId == id)) {  //Makes sure player moving piece owns piece
             for (std::pair<int,int> dir : selected.possibleDirections()) {  //Gets direction piece can move
                 // std::cout << "DIRS: " << dir.first << ", " << dir.second << std::endl;
                 if (dirx / dir.first > 0 && diry / dir.second > 0) {    //Makes sure that the direction is correct
                     std::pair<int, int> adj_loc = std::make_pair(startx + dir.first, starty + dir.second); //Location of adjacent spot
                     // std::cout << "Checking: " << adj_loc.first << ", " << adj_loc.second << std::endl;
-                    for (auto d : checkers) { 
-                        if (d.isAtLocation(adj_loc)) {  //Checks if there is a piece at the adjacent spot
-                            if (d.playerId == id) { //Can't jump over your own piece?
+                    for (auto && d : checkers) { 
+                        if (d->isAtLocation(adj_loc)) {  //Checks if there is a piece at the adjacent spot
+                            if (d->playerId == id) { //Can't jump over your own piece?
                                 throw movePieceException(OWN_PIECE_OBSTRUCTION_ERROR);
                             }
                             
                             std::pair<int, int> att_loc = std::make_pair(adj_loc.first * 2, adj_loc.second * 2);  //Location of attack location
-                            for (draughts::model::checker e : checkers) {
-                                if (e.isAtLocation(att_loc)) {    //Checks if there is a piece at the attack location
+                            for (auto && e : checkers) {
+                                if (e->isAtLocation(att_loc)) {    //Checks if there is a piece at the attack location
                                     throw movePieceException(PIECE_OBSTRUCTION_ERROR);
                                 }
                             }
@@ -107,14 +111,14 @@ int draughts::model::board::makeMove(int id, int startx, int starty, int endx, i
                                 //now check whether player has to chain moves
                                 for (std::pair<int,int> dir : selected.possibleDirections()) {
                                     std::pair<int, int> adj_loc2 = std::make_pair(startx + dir.first, starty + dir.second); //Location of adjacent spot  
-                                    for (draughts::model::checker d : checkers) {
-                                        if (d.isAtLocation(adj_loc2)) {
-                                            if (d.playerId == id)
+                                    for (auto && d : checkers) {
+                                        if (d->isAtLocation(adj_loc2)) {
+                                            if (d->playerId == id)
                                                 continue;
                                             std::pair<int, int> att_loc2 = std::make_pair(adj_loc2.first * 2, adj_loc2.second * 2);
                                             bool canTake = true;
-                                            for (draughts::model::checker e : checkers) {
-                                                if (e.isAtLocation(att_loc2)) {
+                                            for (auto && e : checkers) {
+                                                if (e->isAtLocation(att_loc2)) {
                                                     canTake = false;
                                                     break;
                                                 }
@@ -149,10 +153,10 @@ int draughts::model::board::makeMove(int id, int startx, int starty, int endx, i
 void draughts::model::board::populateRow(bool even, int row, char team, int playerId) {
 
     for (int i = ((even) ? 1 : 2); i <= BOARD_SIZE; i = i+2) {
-        draughts::model::checker checker;
+        std::unique_ptr<draughts::model::checker> checker = std::make_unique(checker);
         checker << team; // overloading operators example
-        checker.playerId = playerId;
-        checker.setLocation(i, row);
+        checker->playerId = playerId;
+        checker->setLocation(i, row);
         checkers.push_back(checker);
     }
 
@@ -169,9 +173,9 @@ void draughts::model::board::executeMove(int id, int startx, int starty, int end
     int row = ((get_token(startx, starty) == 'x') ? 1 : 8);
     if (std::abs(startx - endx) == 1) { // TODO REMOVE C FUNCTION, REPLACE WITH STDLIB.
         if (endx != row) {
-            for(auto piece : this->checkers) {
-                if(piece.isAtLocation(startx, starty)) {
-                    piece.setLocation(endx, endy);
+            for(auto && piece : this->checkers) {
+                if(piece->isAtLocation(startx, starty)) {
+                    piece->setLocation(endx, endy);
                     this->checkers.push_back(piece);
                     break;
                 }
@@ -179,24 +183,24 @@ void draughts::model::board::executeMove(int id, int startx, int starty, int end
             removeCheckerAtLocation(startx, starty);
         } else {
             draughts::model::checker * checkerToMove;
-            for(auto piece : this->checkers) {
-                if(piece.isAtLocation(startx, starty)) {
-                    checkerToMove = &piece;
+            for(auto && piece : this->checkers) {
+                if(piece->isAtLocation(startx, starty)) {
+                    checkerToMove = piece.get();
                     break;
                 }
             }
-            draughts::model::king temp;
-            temp.setLocation(endx, endy);
-            temp << checkerToMove->team;
-            temp.playerId = checkerToMove->playerId;
+            std::unique_ptr<draughts::model::king> temp = std::make_unique(draughts::model::king);
+            temp->setLocation(endx, endy);
+            temp.get() << checkerToMove->team;
+            temp->playerId = checkerToMove->playerId;
             checkers.push_back(temp);
             removeCheckerAtLocation(startx, starty);
         }
         
     }
     else {
-        for(auto checker : this->checkers) {
-            if(checker.isAtLocation( startx + (1 * (startx > endx ? -1 : 1)), starty + (1 * (starty > endy ? -1 : 1))) ) {
+        for(auto && checker : this->checkers) {
+            if(checker->isAtLocation( startx + (1 * (startx > endx ? -1 : 1)), starty + (1 * (starty > endy ? -1 : 1))) ) {
                 removeCheckerAtLocation( startx + (1 * (startx > endx ? -1 : 1)), starty + (1 * (starty > endy ? -1 : 1)));
                 break;
             }
@@ -204,9 +208,9 @@ void draughts::model::board::executeMove(int id, int startx, int starty, int end
         /* TODO add score here */
         
         if (endx != row) {
-            for(auto piece : this->checkers) {
-                if(piece.isAtLocation(startx, starty)) {
-                    piece.setLocation(endx, endy);
+            for(auto && piece : this->checkers) {
+                if(piece->isAtLocation(startx, starty)) {
+                    piece->setLocation(endx, endy);
                     this->checkers.push_back(piece);
                     break;
                 }
@@ -214,16 +218,16 @@ void draughts::model::board::executeMove(int id, int startx, int starty, int end
             removeCheckerAtLocation(startx, starty);
         } else {
             draughts::model::checker * checkerToMove;
-            for(auto piece : this->checkers) {
-                if(piece.isAtLocation(startx, starty)) {
-                    checkerToMove = &piece;
+            for(auto && piece : this->checkers) {
+                if(piece->isAtLocation(startx, starty)) {
+                    checkerToMove = piece.get();
                     break;
                 }
             }
-            draughts::model::king temp;
-            temp.setLocation(endx, endy);
-            temp << checkerToMove->team;
-            temp.playerId = checkerToMove->playerId;
+            std::unique_ptr<draughts::model::king> temp = std::make_unique(draughts::model::king);
+            temp->setLocation(endx, endy);
+            temp.get() <<  checkerToMove->team;
+            temp->playerId = checkerToMove->playerId;
             checkers.push_back(temp);
             removeCheckerAtLocation(startx, starty);
         }
@@ -232,10 +236,10 @@ void draughts::model::board::executeMove(int id, int startx, int starty, int end
 } 
 
 char draughts::model::board::get_token(int x, int y) {
-    for(auto token : checkers) {
-        if (token.isAtLocation(y, x)) {
+    for(auto && token : checkers) {
+        if (token->isAtLocation(y, x)) {
             
-            return token.team;
+            return token->getPieceChar();
         }
     }
     return ' ';
@@ -243,8 +247,8 @@ char draughts::model::board::get_token(int x, int y) {
 
 void draughts::model::board::removeCheckerAtLocation(int x, int y) {
     int index = 0;
-    for(auto piece : checkers) {
-        if(piece.isAtLocation(x, y)) {
+    for(auto && piece : checkers) {
+        if(piece->isAtLocation(x, y)) {
             break;
         }
         index++;
@@ -255,8 +259,8 @@ void draughts::model::board::removeCheckerAtLocation(int x, int y) {
 bool draughts::model::board::bothTeamsStillHavePieces() {
     bool x_stillHasPieces = false; 
     bool o_stillHasPieces = false;
-    for(auto piece : checkers) {
-        if (piece.team == 'x') {
+    for(auto && piece : checkers) {
+        if (piece->team == 'x') {
             x_stillHasPieces = true; 
         } else {
             o_stillHasPieces = true; 
