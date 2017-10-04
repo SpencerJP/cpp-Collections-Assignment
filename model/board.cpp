@@ -60,7 +60,7 @@ int draughts::model::board::makeMove(int id, int startx, int starty, int endx, i
                     if (d->isAtLocation(adj_loc)) {
                         if (d->playerId == id)
                             continue;
-                        std::pair<int, int> att_loc = std::make_pair(adj_loc.first * 2, adj_loc.second * 2);
+                        std::pair<int, int> att_loc = std::make_pair(adj_loc.first + dir.first, adj_loc.second + dir.second);
                         bool canTake = true;
                         for (auto && e : checkers) {
                             if (e->isAtLocation(att_loc)) {
@@ -102,7 +102,7 @@ int draughts::model::board::makeMove(int id, int startx, int starty, int endx, i
                                 throw movePieceException(OWN_PIECE_OBSTRUCTION_ERROR);
                             }
                             
-                            std::pair<int, int> att_loc = std::make_pair(adj_loc.first * 2, adj_loc.second * 2);  //Location of attack location
+                            std::pair<int, int> att_loc = std::make_pair(adj_loc.first + dir.first, adj_loc.second + dir.second);  //Location of attack location
                             for (auto && e : checkers) {
                                 if (e->isAtLocation(att_loc)) {    //Checks if there is a piece at the attack location
                                     throw movePieceException(PIECE_OBSTRUCTION_ERROR);
@@ -111,13 +111,13 @@ int draughts::model::board::makeMove(int id, int startx, int starty, int endx, i
                             
                             if (endx == att_loc.first && endy == att_loc.second) {  //Checks that the free space is the desired location
                                 //now check whether player has to chain moves
-                                for (std::pair<int,int> dir : selected->possibleDirections()) {
-                                    std::pair<int, int> adj_loc2 = std::make_pair(startx + dir.first, starty + dir.second); //Location of adjacent spot  
+                                for (std::pair<int,int> dir2 : selected->possibleDirections()) {
+                                    std::pair<int, int> adj_loc2 = std::make_pair(startx + dir2.first, starty + dir2.second); //Location of adjacent spot  
                                     for (auto && d : checkers) {
                                         if (d->isAtLocation(adj_loc2)) {
                                             if (d->playerId == id)
                                                 continue;
-                                            std::pair<int, int> att_loc2 = std::make_pair(adj_loc2.first * 2, adj_loc2.second * 2);
+                                            std::pair<int, int> att_loc2 = std::make_pair(adj_loc2.first + dir2.first, adj_loc2.second + dir2.second);
                                             bool canTake = true;
                                             for (auto && e : checkers) {
                                                 if (e->isAtLocation(att_loc2)) {
