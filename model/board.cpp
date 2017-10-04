@@ -256,10 +256,10 @@ bool draughts::model::board::bothTeamsStillHavePieces() {
     bool x_stillHasPieces = false; 
     bool o_stillHasPieces = false;
     for(auto piece : checkers) {
-        if (piece.team = 'x') {
-            bool x_stillHasPieces = true; 
+        if (piece.team == 'x') {
+            x_stillHasPieces = true; 
         } else {
-            bool o_stillHasPieces = true; 
+            o_stillHasPieces = true; 
         }
     }
     return (x_stillHasPieces && o_stillHasPieces);
