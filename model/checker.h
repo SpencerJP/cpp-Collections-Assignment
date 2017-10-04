@@ -13,8 +13,8 @@ namespace draughts {
                 int y;
                 checker(void);
                 // std::vector<std::pair<int,int>> possibleDirections(std::vector<checker> checkers);
-                std::vector<std::pair<int,int>> possibleDirections(void);
-                char getPieceChar(void);
+                virtual std::vector<std::pair<int,int>> possibleDirections(void);
+                virtual char getPieceChar(void);
                 void setLocation(int x, int y);
                 bool isAtLocation(int x, int y);
                 bool isAtLocation(std::pair<int, int> coords);
