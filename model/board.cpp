@@ -256,7 +256,6 @@ void draughts::model::board::removeCheckerAtLocation(int x, int y) {
         }
         index++;
     }
-    std::cout << "meme2" << std::endl;
     checkers.erase(checkers.begin() + index);
 }
 

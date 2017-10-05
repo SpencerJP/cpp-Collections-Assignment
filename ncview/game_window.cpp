@@ -21,7 +21,7 @@ void draughts::ncview::game_window::activate(void)
             display_board();
             playernum = themodel->get_current_player();
             std::cout << "it is " << themodel->get_player_name(playernum)
-                << " and their score is " 
+                << "'s turn and their score is " 
                 << themodel->get_player_score(playernum) << std::endl;
         }
         catch(std::exception & ex)
