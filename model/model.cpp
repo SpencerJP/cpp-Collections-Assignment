@@ -65,10 +65,14 @@ int draughts::model::model::make_move(int playernum, int startx, int starty, int
     draughts::model::board * board = draughts::model::board::get_instance(); // initializes board
     int returnvalue = board->makeMove(playernum, startx, starty, endx, endy);
     if (returnvalue == 1) { //TOOK_PIECE
-        (draughts::model::players::get_instance()->currentPlayers.first == playernum) ? draughts::model::players::get_instance()->currentPlayers.first.score++ : draughts::model::players::get_instance()->currentPlayers.first.score++; // increase score
+        (draughts::model::players::get_instance()->currentPlayers.first == playernum)
+        ? draughts::model::players::get_instance()->currentPlayers.first.score++ : 
+        draughts::model::players::get_instance()->currentPlayers.second.score++; // increase score
     }
     if (returnvalue == 3) { // NO_VALID_MOVES
-        winner = ((draughts::model::players::get_instance()->currentPlayers.second == playernum) ? draughts::model::players::get_instance()->currentPlayers.first.playernum : draughts::model::players::get_instance()->currentPlayers.first.playernum);
+        winner = ((draughts::model::players::get_instance()->currentPlayers.second == playernum)
+        ? draughts::model::players::get_instance()->currentPlayers.first.playernum :
+        draughts::model::players::get_instance()->currentPlayers.second.playernum);
     }
     if (draughts::model::board::get_instance()->bothTeamsStillHavePieces()) { // if one team has no pieces it's over
         winner = playernum;

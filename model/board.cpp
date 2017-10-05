@@ -213,7 +213,6 @@ void draughts::model::board::executeMove(int id, int startx, int starty, int end
                 break;
             }
         }
-        /* TODO add score here */
         
         if (endx != row) {
             for(auto && piece : this->checkers) {
@@ -257,7 +256,6 @@ void draughts::model::board::removeCheckerAtLocation(int x, int y) {
         }
         index++;
     }
-    std::cout << "meme2" << std::endl;
     checkers.erase(checkers.begin() + index);
 }
 
