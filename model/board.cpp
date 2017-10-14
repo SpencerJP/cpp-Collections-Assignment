@@ -36,6 +36,7 @@ void draughts::model::board::start_game(std::pair<draughts::model::player, draug
 
 int draughts::model::board::makeMove(int id, int startx, int starty, int endx, int endy) {
     bool hasToTake = false;
+    bool canMove = false;
     int dirx = endx - startx;
     int diry = endy - starty;
     if (dirx % diry != 0) { //Makes sure direction is 45/135/225/315 degrees
@@ -51,21 +52,14 @@ int draughts::model::board::makeMove(int id, int startx, int starty, int endx, i
     }
 
     //Populate vector available with all pieces on your team that can take an enemy piece
-    std::vector<std::unique_ptr<draughts::model::checker>> available;
     for (auto && c : checkers) {
-        if (hasToTake) {
-            break;
-        }
         if (c->playerId == id) {
             for (std::pair<int,int> dir : c->possibleDirections()) {
-                if (hasToTake) {
-                    break;
-                }
-                std::pair<int, int> adj_loc = std::make_pair(startx + dir.first, starty + dir.second); //Location of adjacent spot  
+                std::pair<int, int> adj_loc = std::make_pair(c->x + dir.first, c->y + dir.second); //Location of adjacent spot
                 for (auto && d : checkers) {
                     if (d->isAtLocation(adj_loc)) {
                         if (d->playerId == id)
-                            continue;
+                            break;
                         std::pair<int, int> att_loc = std::make_pair(adj_loc.first + dir.first, adj_loc.second + dir.second);
                         bool canTake = true;
                         for (auto && e : checkers) {
@@ -76,26 +70,26 @@ int draughts::model::board::makeMove(int id, int startx, int starty, int endx, i
                         }
                         if (canTake) {
                             hasToTake = true;
+                            canMove = true;
                         }
-                            
                         break;
                     }
+                    canMove = true;
                 }
             }
         }
     }
-    std::cout << "LENGTH: " << checkers.size() << std::endl;
+    
+    if (!canMove) {
+        return NO_VALID_MOVES;
+    }
+    
     for (auto && selected : checkers) {
-        // std::cout << "Selected: " << selected->x << ", " << selected->y << " | ID: " << selected->playerId << " | PlayerId: " << id << std::endl;
-        if (selected->isAtLocation(startx,starty)) {  //Makes sure player moving piece owns piece
-        std::cout << "Found" << std::endl;
-            if (selected->playerId == id) {
-            std::cout << "Correct ID" << std::endl;
+        if (selected->isAtLocation(startx,starty)) {
+            if (selected->playerId == id) { //Makes sure player moving piece owns piece
                 for (std::pair<int,int> dir : selected->possibleDirections()) {  //Gets direction piece can move
-                    // std::cout << "DIRS: " << dir.first << ", " << dir.second << std::endl;
                     if (dirx / dir.first > 0 && diry / dir.second > 0) {    //Makes sure that the direction is correct
                         std::pair<int, int> adj_loc = std::make_pair(startx + dir.first, starty + dir.second); //Location of adjacent spot
-                        // std::cout << "Checking: " << adj_loc.first << ", " << adj_loc.second << std::endl;
                         for (auto && d : checkers) { 
                             if (d->isAtLocation(adj_loc)) {  //Checks if there is a piece at the adjacent spot
                                 if (d->playerId == id) { //Can't jump over your own piece?
@@ -154,7 +148,7 @@ int draughts::model::board::makeMove(int id, int startx, int starty, int endx, i
             throw movePieceException(PIECE_OWNERSHIP_ERROR);
         }
     }
-    return NO_VALID_MOVES;
+    throw movePieceException(INVALID_COORDS_ERROR); //PIECE NOT FOUND
 }
 
 void draughts::model::board::populateRow(bool even, int row, char team, int playerId) {
