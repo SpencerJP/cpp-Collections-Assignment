@@ -35,7 +35,7 @@ void draughts::model::board::start_game(std::pair<draughts::model::player, draug
 }
 
 int draughts::model::board::makeMove(int id, int startx, int starty, int endx, int endy) {
-    
+    bool hasToTake = false;
     int dirx = endx - startx;
     int diry = endy - starty;
     if (dirx % diry != 0) { //Makes sure direction is 45/135/225/315 degrees
@@ -53,8 +53,14 @@ int draughts::model::board::makeMove(int id, int startx, int starty, int endx, i
     //Populate vector available with all pieces on your team that can take an enemy piece
     std::vector<std::unique_ptr<draughts::model::checker>> available;
     for (auto && c : checkers) {
+        if (hasToTake) {
+            break;
+        }
         if (c->playerId == id) {
             for (std::pair<int,int> dir : c->possibleDirections()) {
+                if (hasToTake) {
+                    break;
+                }
                 std::pair<int, int> adj_loc = std::make_pair(startx + dir.first, starty + dir.second); //Location of adjacent spot  
                 for (auto && d : checkers) {
                     if (d->isAtLocation(adj_loc)) {
@@ -69,11 +75,7 @@ int draughts::model::board::makeMove(int id, int startx, int starty, int endx, i
                             }
                         }
                         if (canTake) {
-                            std::unique_ptr<draughts::model::checker> tempPiece = std::make_unique<draughts::model::checker>(*(c.get()));
-                            //temp->team = c->team;
-                            //temp->playerId = c->team;
-                            //temp->setLocation(c->x, c->y);
-                            available.push_back(std::move(tempPiece));
+                            hasToTake = true;
                         }
                             
                         break;
@@ -82,69 +84,72 @@ int draughts::model::board::makeMove(int id, int startx, int starty, int endx, i
             }
         }
     }
-    
-    std::vector<std::unique_ptr<draughts::model::checker>> * searchSpace = &available;
-    if (available.empty()) {
-        searchSpace = &checkers;
-    }
-        
-    for (auto && selected : (*searchSpace)) {
+    std::cout << "LENGTH: " << checkers.size() << std::endl;
+    for (auto && selected : checkers) {
         // std::cout << "Selected: " << selected->x << ", " << selected->y << " | ID: " << selected->playerId << " | PlayerId: " << id << std::endl;
-        if (selected->isAtLocation(startx,starty) && (selected->playerId == id)) {  //Makes sure player moving piece owns piece
-            for (std::pair<int,int> dir : selected->possibleDirections()) {  //Gets direction piece can move
-                // std::cout << "DIRS: " << dir.first << ", " << dir.second << std::endl;
-                if (dirx / dir.first > 0 && diry / dir.second > 0) {    //Makes sure that the direction is correct
-                    std::pair<int, int> adj_loc = std::make_pair(startx + dir.first, starty + dir.second); //Location of adjacent spot
-                    // std::cout << "Checking: " << adj_loc.first << ", " << adj_loc.second << std::endl;
-                    for (auto && d : checkers) { 
-                        if (d->isAtLocation(adj_loc)) {  //Checks if there is a piece at the adjacent spot
-                            if (d->playerId == id) { //Can't jump over your own piece?
-                                throw movePieceException(OWN_PIECE_OBSTRUCTION_ERROR);
-                            }
-                            
-                            std::pair<int, int> att_loc = std::make_pair(adj_loc.first + dir.first, adj_loc.second + dir.second);  //Location of attack location
-                            for (auto && e : checkers) {
-                                if (e->isAtLocation(att_loc)) {    //Checks if there is a piece at the attack location
-                                    throw movePieceException(PIECE_OBSTRUCTION_ERROR);
+        if (selected->isAtLocation(startx,starty)) {  //Makes sure player moving piece owns piece
+        std::cout << "Found" << std::endl;
+            if (selected->playerId == id) {
+            std::cout << "Correct ID" << std::endl;
+                for (std::pair<int,int> dir : selected->possibleDirections()) {  //Gets direction piece can move
+                    // std::cout << "DIRS: " << dir.first << ", " << dir.second << std::endl;
+                    if (dirx / dir.first > 0 && diry / dir.second > 0) {    //Makes sure that the direction is correct
+                        std::pair<int, int> adj_loc = std::make_pair(startx + dir.first, starty + dir.second); //Location of adjacent spot
+                        // std::cout << "Checking: " << adj_loc.first << ", " << adj_loc.second << std::endl;
+                        for (auto && d : checkers) { 
+                            if (d->isAtLocation(adj_loc)) {  //Checks if there is a piece at the adjacent spot
+                                if (d->playerId == id) { //Can't jump over your own piece?
+                                    throw movePieceException(OWN_PIECE_OBSTRUCTION_ERROR);
                                 }
-                            }
-                            
-                            if (endx == att_loc.first && endy == att_loc.second) {  //Checks that the free space is the desired location
-                                //now check whether player has to chain moves
-                                for (std::pair<int,int> dir2 : selected->possibleDirections()) {
-                                    std::pair<int, int> adj_loc2 = std::make_pair(endx + dir2.first, endy + dir2.second); //Location of adjacent spot  
-                                    for (auto && d : checkers) {
-                                        if (d->isAtLocation(adj_loc2)) {
-                                            if (d->playerId == id)
-                                                continue;
-                                            std::pair<int, int> att_loc2 = std::make_pair(adj_loc2.first + dir2.first, adj_loc2.second + dir2.second);
-                                            bool canTake = true;
-                                            for (auto && e : checkers) {
-                                                if (e->isAtLocation(att_loc2)) {
-                                                    canTake = false;
-                                                    break;
+                                
+                                std::pair<int, int> att_loc = std::make_pair(adj_loc.first + dir.first, adj_loc.second + dir.second);  //Location of attack location
+                                for (auto && e : checkers) {
+                                    if (e->isAtLocation(att_loc)) {    //Checks if there is a piece at the attack location
+                                        throw movePieceException(PIECE_OBSTRUCTION_ERROR);
+                                    }
+                                }
+                                
+                                if (endx == att_loc.first && endy == att_loc.second) {  //Checks that the free space is the desired location
+                                    //now check whether player has to chain moves
+                                    for (std::pair<int,int> dir2 : selected->possibleDirections()) {
+                                        std::pair<int, int> adj_loc2 = std::make_pair(endx + dir2.first, endy + dir2.second); //Location of adjacent spot  
+                                        for (auto && d : checkers) {
+                                            if (d->isAtLocation(adj_loc2)) {
+                                                if (d->playerId == id)
+                                                    continue;
+                                                std::pair<int, int> att_loc2 = std::make_pair(adj_loc2.first + dir2.first, adj_loc2.second + dir2.second);
+                                                bool canTake = true;
+                                                for (auto && e : checkers) {
+                                                    if (e->isAtLocation(att_loc2)) {
+                                                        canTake = false;
+                                                        break;
+                                                    }
                                                 }
-                                            }
-                                            if (canTake) {
-                                                //SUCCESS, player must chain moves
-                                                executeMove(id, startx, starty, endx, endy);
-                                                return CHAIN_MOVE;
+                                                if (canTake) {
+                                                    //SUCCESS, player must chain moves
+                                                    executeMove(id, startx, starty, endx, endy);
+                                                    return CHAIN_MOVE;
+                                                }
                                             }
                                         }
                                     }
+                                    //SUCCESS, player can't chain moves
+                                    executeMove(id, startx, starty, endx, endy);
+                                    return TOOK_PIECE;
                                 }
-                                //SUCCESS, player can't chain moves
-                                executeMove(id, startx, starty, endx, endy);
-                                return TOOK_PIECE;
                             }
                         }
-                    }
-                    if (endx == adj_loc.first && endy == adj_loc.second) {  //Checks that the free space is the desired location
-                        executeMove(id, startx, starty, endx, endy);
-                        //SUCCESS
-                        return NORMAL_MOVE;
+                        if (endx == adj_loc.first && endy == adj_loc.second) {  //Checks that the free space is the desired location
+                            if (hasToTake) {
+                                throw movePieceException(GENERAL_MOVEMENT_ERROR);
+                            }
+                            executeMove(id, startx, starty, endx, endy);
+                            //SUCCESS
+                            return NORMAL_MOVE;
+                        }
                     }
                 }
+                throw movePieceException(GENERAL_MOVEMENT_ERROR);
             }
             throw movePieceException(PIECE_OWNERSHIP_ERROR);
         }
