@@ -1,3 +1,9 @@
+/* 
+    Spencer Porteous s3539519
+    Jarod Wright s3601928
+    C++ Assignment 2
+*/
+
 #include "model.h"
 
 std::unique_ptr<draughts::model::model> draughts::model::model::instance =

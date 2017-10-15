@@ -1,3 +1,9 @@
+/* 
+    Spencer Porteous s3539519
+    Jarod Wright s3601928
+    C++ Assignment 2
+*/
+
 #include "players_statics.h"
 
 std::unique_ptr<draughts::model::players> draughts::model::players::instance =
